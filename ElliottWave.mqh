@@ -31,41 +31,38 @@
  */
 
 // Includes.
-#include <EA31337-classes\Strategy.mqh>
 #include <EA31337-classes\Strategies.mqh>
+#include <EA31337-classes\Strategy.mqh>
 
 // User inputs.
-#ifdef __input__ input #endif string __ElliottWave_Parameters__ = "-- Settings for the Elliott Wave indicator --"; // >>> ELLIOTT WAVE <<<
-#ifdef __input__ input #endif int ElliottWave_SignalMethod = 0; // Signal method
-#ifdef __input__ input #endif string ElliottWave_SignalMethods = ""; // Signal method
+#ifdef __input__ input #endif string __ElliottWave_Parameters__ = \
+    "-- Settings for the Elliott Wave indicator --";                  // >>> ELLIOTT WAVE <<<
+#ifdef __input__ input #endif int ElliottWave_SignalMethod = 0;       // Signal method
+#ifdef __input__ input #endif string ElliottWave_SignalMethods = "";  // Signal method
 
-class ElliottWave: public Strategy {
-
-protected:
-
-  int       open_method = EMPTY;    // Open method.
-  double    open_level  = 0.0;     // Open level.
+class ElliottWave : public Strategy {
+ protected:
+  int open_method = EMPTY;  // Open method.
+  double open_level = 0.0;  // Open level.
   int FasterEMA = 5;
   int SlowerEMA = 6;
   double fasterEMA[3][9], slowerEMA[3][9];
 
-public:
-
+ public:
   /**
    * Update indicator values.
    */
   int Update(int tf = PERIOD_M1) {
-
-    int               limit,i,counter;
-    int tframe=TfToIndex(tf);
+    int limit, i, counter;
+    int tframe = TfToIndex(tf);
     i = 1;
-    fasterEMA[0][tframe] = iMA(NULL, tf, FasterEMA, 0, MODE_LWMA,PRICE_CLOSE, i); //now
-    fasterEMA[1][tframe] = iMA(NULL, tf, FasterEMA, 0, MODE_LWMA,PRICE_CLOSE, i + 1); //previous
-    fasterEMA[2][tframe] = iMA(NULL, tf, FasterEMA, 0, MODE_LWMA,PRICE_CLOSE, i - 1);  //after
+    fasterEMA[0][tframe] = iMA(NULL, tf, FasterEMA, 0, MODE_LWMA, PRICE_CLOSE, i);      // now
+    fasterEMA[1][tframe] = iMA(NULL, tf, FasterEMA, 0, MODE_LWMA, PRICE_CLOSE, i + 1);  // previous
+    fasterEMA[2][tframe] = iMA(NULL, tf, FasterEMA, 0, MODE_LWMA, PRICE_CLOSE, i - 1);  // after
 
-    slowerEMA[0][tframe] = iMA(NULL, tf, SlowerEMA, 0, MODE_LWMA,PRICE_CLOSE, i);
-    slowerEMA[1][tframe] = iMA(NULL, tf, SlowerEMA, 0, MODE_LWMA,PRICE_CLOSE, i + 1);
-    slowerEMA[2][tframe] = iMA(NULL, tf, SlowerEMA, 0, MODE_LWMA,PRICE_CLOSE, i - 1);
+    slowerEMA[0][tframe] = iMA(NULL, tf, SlowerEMA, 0, MODE_LWMA, PRICE_CLOSE, i);
+    slowerEMA[1][tframe] = iMA(NULL, tf, SlowerEMA, 0, MODE_LWMA, PRICE_CLOSE, i + 1);
+    slowerEMA[2][tframe] = iMA(NULL, tf, SlowerEMA, 0, MODE_LWMA, PRICE_CLOSE, i - 1);
 
     return True;
   }
@@ -74,33 +71,24 @@ public:
    * Checks whether signal is on buy or sell.
    *
    * @param
-   *   cmd (int) - type of trade order command
+   *   _cmd (int) - type of trade order command
    *   period (int) - period to check for
    *   signal_method (int) - signal method to use by using bitwise AND operation
    *   signal_level (double) - signal level to consider the signal
    */
-   bool Signal(int cmd = EMPTY, int tf = PERIOD_M1, int signal_method = EMPTY, double signal_level = EMPTY) {
-
+  bool Signal(int _cmd = EMPTY, int tf = PERIOD_M1, int signal_method = EMPTY, double signal_level = EMPTY) {
     //  counted_bars=Bars;
     string TimeFrameStr;
     int tframe = TfToIndex(tf);
 
-    if((fasterEMA[0][tframe]>slowerEMA[0][tframe]) &&
-       (fasterEMA[1][tframe]<slowerEMA[1][tframe]) &&
-       (fasterEMA[2][tframe]>slowerEMA[2][tframe])
-       && (cmd==OP_BUY)
-       ) {
-       return True;
-      }
-    else if((fasterEMA[0][tframe]<slowerEMA[0][tframe]) &&
-       (fasterEMA[1][tframe]>slowerEMA[1][tframe]) &&
-       (fasterEMA[2][tframe]<slowerEMA[2][tframe])
-       && (cmd==OP_SELL)
-       ) {
-          return True;
-       }
+    if ((fasterEMA[0][tframe] > slowerEMA[0][tframe]) && (fasterEMA[1][tframe] < slowerEMA[1][tframe]) &&
+        (fasterEMA[2][tframe] > slowerEMA[2][tframe]) && (_cmd == OP_BUY)) {
+      return True;
+    } else if ((fasterEMA[0][tframe] < slowerEMA[0][tframe]) && (fasterEMA[1][tframe] > slowerEMA[1][tframe]) &&
+               (fasterEMA[2][tframe] < slowerEMA[2][tframe]) && (_cmd == OP_SELL)) {
+      return True;
+    }
 
-       return false;
-   }
-
+    return false;
+  }
 };
