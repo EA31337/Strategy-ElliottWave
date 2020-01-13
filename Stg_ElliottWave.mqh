@@ -34,7 +34,7 @@ struct Stg_ElliottWave_Params : Stg_Params {
   unsigned int ElliottWave_Period;
   ENUM_APPLIED_PRICE ElliottWave_Applied_Price;
   int ElliottWave_Shift;
-  long ElliottWave_SignalOpenMethod;
+  int ElliottWave_SignalOpenMethod;
   double ElliottWave_SignalOpenLevel;
   int ElliottWave_SignalCloseMethod;
   double ElliottWave_SignalCloseLevel;
@@ -64,14 +64,7 @@ struct Stg_ElliottWave_Params : Stg_Params {
 #include "sets/EURUSD_M30.h"
 #include "sets/EURUSD_M5.h"
 
-class ElliottWave : public Strategy {
- protected:
-  int open_method = EMPTY;  // Open method.
-  double open_level = 0.0;  // Open level.
-  int FasterEMA = 5;
-  int SlowerEMA = 6;
-  double fasterEMA[3][9], slowerEMA[3][9];
-
+class Stg_ElliottWave : public Strategy {
  public:
   Stg_ElliottWave(StgParams &_params, string _name) : Strategy(_params, _name) {}
 
@@ -107,7 +100,7 @@ class ElliottWave : public Strategy {
     // Initialize strategy parameters.
     ChartParams cparams(_tf);
     ElliottWave_Params ew_params(_params.ElliottWave_Period, _params.ElliottWave_Applied_Price);
-    IndicatorParams ew_iparams(10, INDI_ElliottWave);
+    IndicatorParams ew_iparams(10, INDI_ELLIOTTWAVE);
     StgParams sparams(new Trade(_tf, _Symbol), new Indi_ElliottWave(ew_params, ew_iparams, cparams), NULL, NULL);
     sparams.logger.SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
@@ -122,6 +115,7 @@ class ElliottWave : public Strategy {
   /**
    * Update indicator values.
    */
+  /*
   int Update(int _tf) {
     int limit, i, counter;
     int tframe = TfToIndex(_tf);
@@ -136,14 +130,16 @@ class ElliottWave : public Strategy {
 
     return True;
   }
+  */
 
   /**
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
     bool _result = false;
-    //  counted_bars=Bars;
+    /*
     // @todo
+    //  counted_bars=Bars;
     string TimeFrameStr;
     int tframe = TfToIndex(tf);
 
@@ -154,15 +150,9 @@ class ElliottWave : public Strategy {
                (fasterEMA[2][tframe] < slowerEMA[2][tframe]) && (_cmd == OP_SELL)) {
       return True;
     }
+    */
 
     return _result;
-  }
-
-  /**
-   * Check strategy's closing signal.
-   */
-  bool SignalClose(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
-    return SignalOpen(Order::NegateOrderType(_cmd), _method, _level);
   }
 
   /**
