@@ -18,35 +18,28 @@
 
 // User inputs.
 INPUT string __ElliottWave_Parameters__ = "-- ElliottWave strategy params --";  // >>> ELLIOTT WAVE <<<
-INPUT int ElliottWave_Active_Tf = 0;  // Activate timeframes (1-255, e.g. M1=1,M5=2,M15=4,M30=8,H1=16,H2=32,H4=64...)
-INPUT int ElliottWave_Period = 14;    // Averaging period
-INPUT ENUM_APPLIED_PRICE ElliottWave_Applied_Price = PRICE_HIGH;  // Applied price.
-INPUT ENUM_TRAIL_TYPE ElliottWave_TrailingStopMethod = 3;         // Trail stop method
-INPUT ENUM_TRAIL_TYPE ElliottWave_TrailingProfitMethod = 22;      // Trail profit method
-INPUT int ElliottWave_Shift = 0;                                  // Shift (relative to the current bar, 0 - default)
-INPUT double ElliottWave_SignalOpenLevel = 0.0004;                // Signal open level (>0.0001)
-INPUT int ElliottWave_SignalBaseMethod = 0;                       // Signal base method (0-1)
-INPUT int ElliottWave_SignalOpenMethod1 = 0;                      // Open condition 1 (0-1023)
-INPUT int ElliottWave_SignalOpenMethod2 = 0;                      // Open condition 2 (0-)
-INPUT double ElliottWave_SignalCloseLevel = 0.0004;               // Signal close level (>0.0001)
-INPUT ENUM_MARKET_EVENT ElliottWave_SignalCloseMethod1 = 0;       // Signal close method 1
-INPUT ENUM_MARKET_EVENT ElliottWave_SignalCloseMethod2 = 0;       // Signal close method 2
-INPUT double ElliottWave_MaxSpread = 6.0;                         // Max spread to trade (pips)
+INPUT int ElliottWave_Period = 14;                                              // Averaging period
+INPUT ENUM_APPLIED_PRICE ElliottWave_Applied_Price = PRICE_HIGH;                // Applied price.
+INPUT int ElliottWave_Shift = 0;                     // Shift (relative to the current bar, 0 - default)
+INPUT int ElliottWave_SignalOpenMethod = 0;          // Signal open method (0-1)
+INPUT double ElliottWave_SignalOpenLevel = 0.0004;   // Signal open level (>0.0001)
+INPUT int ElliottWave_SignalCloseMethod = 0;         // Signal close method
+INPUT double ElliottWave_SignalCloseLevel = 0.0004;  // Signal close level (>0.0001)
+INPUT int ElliottWave_PriceLimitMethod = 0;          // Price limit method
+INPUT double ElliottWave_PriceLimitLevel = 0;        // Price limit level
+INPUT double ElliottWave_MaxSpread = 6.0;            // Max spread to trade (pips)
 
 // Struct to define strategy parameters to override.
 struct Stg_ElliottWave_Params : Stg_Params {
   unsigned int ElliottWave_Period;
   ENUM_APPLIED_PRICE ElliottWave_Applied_Price;
   int ElliottWave_Shift;
-  ENUM_TRAIL_TYPE ElliottWave_TrailingStopMethod;
-  ENUM_TRAIL_TYPE ElliottWave_TrailingProfitMethod;
+  long ElliottWave_SignalOpenMethod;
   double ElliottWave_SignalOpenLevel;
-  long ElliottWave_SignalBaseMethod;
-  long ElliottWave_SignalOpenMethod1;
-  long ElliottWave_SignalOpenMethod2;
+  int ElliottWave_SignalCloseMethod;
   double ElliottWave_SignalCloseLevel;
-  ENUM_MARKET_EVENT ElliottWave_SignalCloseMethod1;
-  ENUM_MARKET_EVENT ElliottWave_SignalCloseMethod2;
+  int ElliottWave_PriceLimitMethod;
+  double ElliottWave_PriceLimitLevel;
   double ElliottWave_MaxSpread;
 
   // Constructor: Set default param values.
@@ -54,15 +47,12 @@ struct Stg_ElliottWave_Params : Stg_Params {
       : ElliottWave_Period(::ElliottWave_Period),
         ElliottWave_Applied_Price(::ElliottWave_Applied_Price),
         ElliottWave_Shift(::ElliottWave_Shift),
-        ElliottWave_TrailingStopMethod(::ElliottWave_TrailingStopMethod),
-        ElliottWave_TrailingProfitMethod(::ElliottWave_TrailingProfitMethod),
+        ElliottWave_SignalOpenMethod(::ElliottWave_SignalOpenMethod),
         ElliottWave_SignalOpenLevel(::ElliottWave_SignalOpenLevel),
-        ElliottWave_SignalBaseMethod(::ElliottWave_SignalBaseMethod),
-        ElliottWave_SignalOpenMethod1(::ElliottWave_SignalOpenMethod1),
-        ElliottWave_SignalOpenMethod2(::ElliottWave_SignalOpenMethod2),
+        ElliottWave_SignalCloseMethod(::ElliottWave_SignalCloseMethod),
         ElliottWave_SignalCloseLevel(::ElliottWave_SignalCloseLevel),
-        ElliottWave_SignalCloseMethod1(::ElliottWave_SignalCloseMethod1),
-        ElliottWave_SignalCloseMethod2(::ElliottWave_SignalCloseMethod2),
+        ElliottWave_PriceLimitMethod(::ElliottWave_PriceLimitMethod),
+        ElliottWave_PriceLimitLevel(::ElliottWave_PriceLimitLevel),
         ElliottWave_MaxSpread(::ElliottWave_MaxSpread) {}
 };
 
@@ -121,11 +111,8 @@ class ElliottWave : public Strategy {
     StgParams sparams(new Trade(_tf, _Symbol), new Indi_ElliottWave(ew_params, ew_iparams, cparams), NULL, NULL);
     sparams.logger.SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
-    sparams.SetSignals(_params.ElliottWave_SignalBaseMethod, _params.ElliottWave_SignalOpenMethod1,
-                       _params.ElliottWave_SignalOpenMethod2, _params.ElliottWave_SignalCloseMethod1,
-                       _params.ElliottWave_SignalCloseMethod2, _params.ElliottWave_SignalOpenLevel,
-                       _params.ElliottWave_SignalCloseLevel);
-    sparams.SetStops(_params.ElliottWave_TrailingProfitMethod, _params.ElliottWave_TrailingStopMethod);
+    sparams.SetSignals(_params.ElliottWave_SignalOpenMethod, _params.ElliottWave_SignalOpenMethod,
+                       _params.ElliottWave_SignalCloseMethod, _params.ElliottWave_SignalCloseMethod);
     sparams.SetMaxSpread(_params.ElliottWave_MaxSpread);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_ElliottWave(sparams, "ElliottWave");
@@ -153,7 +140,7 @@ class ElliottWave : public Strategy {
   /**
    * Check strategy's opening signal.
    */
-  bool SignalOpen(ENUM_ORDER_TYPE _cmd, long _signal_method = EMPTY, double _signal_level = EMPTY) {
+  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
     bool _result = false;
     //  counted_bars=Bars;
     // @todo
@@ -174,16 +161,30 @@ class ElliottWave : public Strategy {
   /**
    * Check strategy's closing signal.
    */
-  bool SignalClose(ENUM_ORDER_TYPE _cmd, long _signal_method = EMPTY, double _signal_level = EMPTY) {
-    if (_signal_level == EMPTY) _signal_level = GetSignalCloseLevel();
-    return SignalOpen(Order::NegateOrderType(_cmd), _signal_method, _signal_level);
+  bool SignalClose(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
+    return SignalOpen(Order::NegateOrderType(_cmd), _method, _level);
   }
 
   /**
    * Check strategy's closing signal.
    */
-  bool SignalClose(ENUM_ORDER_TYPE _cmd, long _signal_method = EMPTY, double _signal_level = EMPTY) {
-    if (_signal_level == EMPTY) _signal_level = GetSignalCloseLevel();
-    return SignalOpen(Order::NegateOrderType(_cmd), _signal_method, _signal_level);
+  bool SignalClose(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
+    return SignalOpen(Order::NegateOrderType(_cmd), _method, _level);
+  }
+
+  /**
+   * Gets price limit value for profit take or stop loss.
+   */
+  double PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_STG_PRICE_LIMIT_MODE _mode, int _method = 0, double _level = 0.0) {
+    double _trail = _level * Market().GetPipSize();
+    int _direction = Order::OrderDirection(_cmd) * (_mode == LIMIT_VALUE_STOP ? -1 : 1);
+    double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
+    double _result = _default_value;
+    switch (_method) {
+      case 0: {
+        // @todo
+      }
+    }
+    return _result;
   }
 };

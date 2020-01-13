@@ -12,15 +12,12 @@ struct Stg_ElliottWave_EURUSD_M1_Params : Stg_ElliottWave_Params {
     ElliottWave_Period = 32;
     ElliottWave_Applied_Price = 3;
     ElliottWave_Shift = 0;
-    ElliottWave_TrailingStopMethod = 6;
-    ElliottWave_TrailingProfitMethod = 11;
+    ElliottWave_SignalOpenMethod = 0;
     ElliottWave_SignalOpenLevel = 36;
-    ElliottWave_SignalBaseMethod = 0;
-    ElliottWave_SignalOpenMethod1 = 0;
-    ElliottWave_SignalOpenMethod2 = 0;
+    ElliottWave_SignalCloseMethod = 0;
     ElliottWave_SignalCloseLevel = 36;
-    ElliottWave_SignalCloseMethod1 = 0;
-    ElliottWave_SignalCloseMethod2 = 0;
+    ElliottWave_PriceLimitMethod = 0;
+    ElliottWave_PriceLimitLevel = 0;
     ElliottWave_MaxSpread = 2;
   }
 };
