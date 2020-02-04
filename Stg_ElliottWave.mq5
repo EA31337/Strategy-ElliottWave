@@ -34,7 +34,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property description ea_desc
 #endif
 #property link ea_link
-#property copyright "Copyright 2016-2019, 31337 Investments Ltd"
+#property copyright "Copyright 2016-2020, 31337 Investments Ltd"
 
 // Class variables.
 EA *ea;
@@ -48,7 +48,7 @@ EA *ea;
  */
 int OnInit() {
   bool _result = true;
-  EAParams ea_params(__FILE__, Log_Level);
+  EA_Params ea_params(__FILE__, Log_Level);
   ea_params.SetChartInfoFreq(Info_On_Chart ? 2 : 0);
   ea = new EA(ea_params);
   _result &= ea.StrategyAdd<Stg_ElliottWave>(Active_Tfs);
