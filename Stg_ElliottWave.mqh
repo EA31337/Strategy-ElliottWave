@@ -91,6 +91,7 @@ class Stg_ElliottWave : public Strategy {
     sparams.SetSignals(_params.ElliottWave_SignalOpenMethod, _params.ElliottWave_SignalOpenLevel,
 _params.ElliottWave_OpenFilterMethod, _params.ElliottWave_OpenBoostMethod,
                        _params.ElliottWave_SignalCloseMethod, _params.ElliottWave_SignalCloseMethod);
+    sparams.SetPriceLimits(_params.ElliottWave_PriceLimitMethod, _params.ElliottWave_PriceLimitLevel);
     sparams.SetMaxSpread(_params.ElliottWave_MaxSpread);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_ElliottWave(sparams, "ElliottWave");
@@ -154,7 +155,7 @@ _params.ElliottWave_OpenFilterMethod, _params.ElliottWave_OpenBoostMethod,
    */
   double PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, double _level = 0.0) {
     double _trail = _level * Market().GetPipSize();
-    int _direction = Order::OrderDirection(_cmd) * (_mode == ORDER_TYPE_SL ? -1 : 1);
+    int _direction = Order::OrderDirection(_cmd, _mode);
     double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
     double _result = _default_value;
     switch (_method) {
