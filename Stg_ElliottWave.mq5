@@ -48,7 +48,7 @@ EA *ea;
  */
 int OnInit() {
   bool _result = true;
-  EA_Params ea_params(__FILE__, Log_Level);
+  EAParams ea_params(__FILE__, Log_Level);
   ea_params.SetChartInfoFreq(Info_On_Chart ? 2 : 0);
   ea = new EA(ea_params);
   _result &= ea.StrategyAdd<Stg_ElliottWave>(Active_Tfs);
