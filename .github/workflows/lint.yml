@@ -1,9 +1,11 @@
-# yamllint disable rule:line-length
 ---
 name: Lint
+
+# yamllint disable-line rule:truthy
 on:
   - pull_request
   - push
+
 jobs:
   YAML:
     runs-on: ubuntu-latest
