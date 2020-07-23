@@ -86,7 +86,7 @@ class Stg_ElliottWave : public Strategy {
     ElliottWave_Params ew_params(_params.ElliottWave_Period, _params.ElliottWave_Applied_Price);
     ew_params.SetTf(_tf);
     StgParams sparams(new Trade(_tf, _Symbol), new Indi_ElliottWave(ew_params), NULL, NULL);
-    sparams.logger.SetLevel(_log_level);
+    sparams.logger.Ptr().SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
     sparams.SetSignals(_params.ElliottWave_SignalOpenMethod, _params.ElliottWave_SignalOpenLevel,
 _params.ElliottWave_OpenFilterMethod, _params.ElliottWave_OpenBoostMethod,

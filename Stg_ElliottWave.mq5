@@ -61,7 +61,7 @@ int OnInit() {
  * Invoked when a new tick for a symbol is received, to the chart of which the Expert Advisor is attached.
  */
 void OnTick() {
-  ea.Process();
+  ea.ProcessTick();
   if (!ea.Terminal().IsOptimization()) {
     ea.Log().Flush(2);
     ea.UpdateInfoOnChart();
