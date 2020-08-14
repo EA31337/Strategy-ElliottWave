@@ -1,9 +1,3 @@
-//+------------------------------------------------------------------+
-//|                  EA31337 - multi-strategy advanced trading robot |
-//|                       Copyright 2016-2020, 31337 Investments Ltd |
-//|                                       https://github.com/EA31337 |
-//+------------------------------------------------------------------+
-
 /**
  * @file
  * Implements ElliottWave strategy.
@@ -13,7 +7,8 @@
 #include <EA31337-classes/EA.mqh>
 
 // Inputs.
-input int Active_Tfs = 127;               // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H2=32,H4=64...]
+input string __ElliottWave_Parameters__ = "-- ElliottWave strategy params --";  // >>> ELLIOTT WAVE <<<
+input int Active_Tfs = 127;               // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H4=32,H8=64...]
 input ENUM_LOG_LEVEL Log_Level = V_INFO;  // Log level.
 input bool Info_On_Chart = true;          // Display info on chart.
 
@@ -23,7 +18,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 // Defines.
 #define ea_name "Stg_ElliottWave"
 #define ea_version "1.000"
-#define ea_desc "Multi-strategy advanced trading robot"
+#define ea_desc "Strategy based on EA31337 framework."
 #define ea_link "https://github.com/EA31337/Strategy-ElliottWave"
 #define ea_author "kenorb"
 
@@ -34,7 +29,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property description ea_desc
 #endif
 #property link ea_link
-#property copyright "Copyright 2016-2020, 31337 Investments Ltd"
+#property copyright "Copyright 2016-2020, kenorb"
 
 // Class variables.
 EA *ea;
