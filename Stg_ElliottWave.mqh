@@ -6,58 +6,67 @@
  * - https://en.wikipedia.org/wiki/Elliott_wave_principle
  */
 
-// User inputs.
-INPUT int ElliottWave_Period = 14;                                // Averaging period
-INPUT ENUM_APPLIED_PRICE ElliottWave_Applied_Price = PRICE_HIGH;  // Applied price.
-INPUT int ElliottWave_Shift = 0;                                  // Shift (relative to the current bar, 0 - default)
-INPUT int ElliottWave_SignalOpenMethod = 0;                       // Signal open method (0-1)
-INPUT float ElliottWave_SignalOpenLevel = 0.0004f;                // Signal open level (>0.0001)
-INPUT int ElliottWave_SignalOpenFilterMethod = 0;                 // Signal open filter method
-INPUT int ElliottWave_SignalOpenBoostMethod = 0;                  // Signal open boost method
-INPUT int ElliottWave_SignalCloseMethod = 0;                      // Signal close method
-INPUT float ElliottWave_SignalCloseLevel = 0.0004f;               // Signal close level (>0.0001)
-INPUT int ElliottWave_PriceLimitMethod = 0;                       // Price limit method
-INPUT float ElliottWave_PriceLimitLevel = 0;                      // Price limit level
-INPUT float ElliottWave_MaxSpread = 6.0;                          // Max spread to trade (pips)
-
 // Includes.
 #include <EA31337-classes/Indicators/Indi_MA.mqh>
 #include <EA31337-classes/Strategy.mqh>
 
+// User inputs.
+INPUT float ElliottWave_LotSize = 0;                 // Lot size
+INPUT int ElliottWave_SignalOpenMethod = 0;          // Signal open method (0-1)
+INPUT float ElliottWave_SignalOpenLevel = 0.0004f;   // Signal open level (>0.0001)
+INPUT int ElliottWave_SignalOpenFilterMethod = 0;    // Signal open filter method
+INPUT int ElliottWave_SignalOpenBoostMethod = 0;     // Signal open boost method
+INPUT int ElliottWave_SignalCloseMethod = 0;         // Signal close method
+INPUT float ElliottWave_SignalCloseLevel = 0.0004f;  // Signal close level (>0.0001)
+INPUT int ElliottWave_PriceLimitMethod = 0;          // Price limit method
+INPUT float ElliottWave_PriceLimitLevel = 0;         // Price limit level
+INPUT int ElliottWave_TickFilterMethod = 0;          // Tick filter method
+INPUT float ElliottWave_MaxSpread = 6.0;             // Max spread to trade (pips)
+INPUT int ElliottWave_Shift = 0;                     // Shift (relative to the current bar, 0 - default)
+INPUT string __ElliottWave_Indi_ElliottWave_Parameters__ =
+    "-- ElliottWave strategy: ElliottWave indicator params --";  // >>> ElliottWave strategy: ElliottWave indicator <<<
+INPUT int Indi_ElliottWave_Period = 14;                          // Averaging period
+INPUT ENUM_APPLIED_PRICE Indi_ElliottWave_Applied_Price = PRICE_HIGH;  // Applied price.
+
+// Structs.
+
+// Defines struct with default user indicator values.
+struct Indi_ElliottWave_Params_Defaults : ElliottWaveParams {
+  Indi_ElliottWave_Params_Defaults() : ElliottWaveParams(::Indi_ElliottWave_Period, ::Indi_ElliottWave_Applied_Price) {}
+} indi_ew_defaults;
+
+// Defines struct to store indicator parameter values.
+struct Indi_ElliottWave_Params : public ElliottWaveParams {
+  // Struct constructors.
+  void Indi_ElliottWave_Params(ElliottWaveParams &_params, ENUM_TIMEFRAMES _tf) : ElliottWaveParams(_params, _tf) {}
+};
+
+// Defines struct with default user strategy values.
+struct Stg_ElliottWave_Params_Defaults : StgParams {
+  Stg_ElliottWave_Params_Defaults()
+      : StgParams(::ElliottWave_SignalOpenMethod, ::ElliottWave_SignalOpenFilterMethod, ::ElliottWave_SignalOpenLevel,
+                  ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseLevel,
+                  ::ElliottWave_PriceLimitMethod, ::ElliottWave_PriceLimitLevel, ::ElliottWave_TickFilterMethod,
+                  ::ElliottWave_MaxSpread, ::ElliottWave_Shift) {}
+} stg_ew_defaults;
+
 // Struct to define strategy parameters to override.
 struct Stg_ElliottWave_Params : StgParams {
-  unsigned int ElliottWave_Period;
-  ENUM_APPLIED_PRICE ElliottWave_Applied_Price;
-  int ElliottWave_Shift;
-  int ElliottWave_SignalOpenMethod;
-  float ElliottWave_SignalOpenLevel;
-  int ElliottWave_SignalOpenFilterMethod;
-  int ElliottWave_SignalOpenBoostMethod;
-  int ElliottWave_SignalCloseMethod;
-  float ElliottWave_SignalCloseLevel;
-  int ElliottWave_PriceLimitMethod;
-  float ElliottWave_PriceLimitLevel;
-  float ElliottWave_MaxSpread;
+  Indi_ElliottWave_Params iparams;
+  StgParams sparams;
 
-  // Constructor: Set default param values.
-  Stg_ElliottWave_Params()
-      : ElliottWave_Period(::ElliottWave_Period),
-        ElliottWave_Applied_Price(::ElliottWave_Applied_Price),
-        ElliottWave_Shift(::ElliottWave_Shift),
-        ElliottWave_SignalOpenMethod(::ElliottWave_SignalOpenMethod),
-        ElliottWave_SignalOpenLevel(::ElliottWave_SignalOpenLevel),
-        ElliottWave_SignalOpenFilterMethod(::ElliottWave_SignalOpenFilterMethod),
-        ElliottWave_SignalOpenBoostMethod(::ElliottWave_SignalOpenBoostMethod),
-        ElliottWave_SignalCloseMethod(::ElliottWave_SignalCloseMethod),
-        ElliottWave_SignalCloseLevel(::ElliottWave_SignalCloseLevel),
-        ElliottWave_PriceLimitMethod(::ElliottWave_PriceLimitMethod),
-        ElliottWave_PriceLimitLevel(::ElliottWave_PriceLimitLevel),
-        ElliottWave_MaxSpread(::ElliottWave_MaxSpread) {}
+  // Struct constructors.
+  Stg_ElliottWave_Params(Indi_ElliottWave_Params &_iparams, StgParams &_sparams)
+      : iparams(indi_ew_defaults, _iparams.tf), sparams(stg_ew_defaults) {
+    iparams = _iparams;
+    sparams = _sparams;
+  }
 };
 
 // Loads pair specific param values.
 #include "sets/EURUSD_H1.h"
 #include "sets/EURUSD_H4.h"
+#include "sets/EURUSD_H8.h"
 #include "sets/EURUSD_M1.h"
 #include "sets/EURUSD_M15.h"
 #include "sets/EURUSD_M30.h"
@@ -69,28 +78,25 @@ class Stg_ElliottWave : public Strategy {
 
   static Stg_ElliottWave *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
-    Stg_ElliottWave_Params _params;
+    Indi_ElliottWave_Params _indi_params(indi_elli_defaults, _tf);
+    StgParams _stg_params(stg_elli_defaults);
     if (!Terminal::IsOptimization()) {
-      SetParamsByTf<Stg_ElliottWave_Params>(_params, _tf, stg_elli_m1, stg_elli_m5, stg_elli_m15, stg_elli_m30,
-                                            stg_elli_h1, stg_elli_h4, stg_elli_h4);
+      SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_elli_m1, indi_elli_m5, indi_elli_m15,
+                                             indi_elli_m30, indi_elli_h1, indi_elli_h4, indi_elli_h8);
+      SetParamsByTf<StgParams>(_stg_params, _tf, stg_elli_m1, stg_elli_m5, stg_elli_m15, stg_elli_m30, stg_elli_h1,
+                               stg_elli_h4, stg_elli_h8);
     }
+    // Initialize indicator.
+    ElliottWaveParams elli_params(_indi_params);
+    _stg_params.SetIndicator(new Indi_ElliottWave(_indi_params));
     // Initialize strategy parameters.
-    /*
-    ElliottWave_Params ew_params(_params.ElliottWave_Period, _params.ElliottWave_Applied_Price);
-    ew_params.SetTf(_tf);
-    StgParams sparams(new Trade(_tf, _Symbol), new Indi_ElliottWave(ew_params), NULL, NULL);
-    sparams.logger.Ptr().SetLevel(_log_level);
-    sparams.SetMagicNo(_magic_no);
-    sparams.SetSignals(_params.ElliottWave_SignalOpenMethod, _params.ElliottWave_SignalOpenLevel,
-_params.ElliottWave_OpenFilterMethod, _params.ElliottWave_OpenBoostMethod,
-                       _params.ElliottWave_SignalCloseMethod, _params.ElliottWave_SignalCloseMethod);
-    sparams.SetPriceLimits(_params.ElliottWave_PriceLimitMethod, _params.ElliottWave_PriceLimitLevel);
-    sparams.SetMaxSpread(_params.ElliottWave_MaxSpread);
+    _stg_params.GetLog().SetLevel(_log_level);
+    _stg_params.SetMagicNo(_magic_no);
+    _stg_params.SetTf(_tf, _Symbol);
     // Initialize strategy instance.
-    Strategy *_strat = new Stg_ElliottWave(sparams, "ElliottWave");
+    Strategy *_strat = new Stg_ElliottWave(_stg_params, "ElliottWave");
+    _stg_params.SetStops(_strat, _strat);
     return _strat;
-    */
-    return NULL;
   }
 
   /**
