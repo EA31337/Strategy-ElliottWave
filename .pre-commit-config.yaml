@@ -33,4 +33,3 @@ repos:
     rev: v1.23.0
     hooks:
       - id: yamllint
-        args: ["-c", ".yamllint", "-s"]
