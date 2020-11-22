@@ -18,8 +18,8 @@ INPUT int ElliottWave_SignalOpenFilterMethod = 0;    // Signal open filter metho
 INPUT int ElliottWave_SignalOpenBoostMethod = 0;     // Signal open boost method
 INPUT int ElliottWave_SignalCloseMethod = 0;         // Signal close method
 INPUT float ElliottWave_SignalCloseLevel = 0.0004f;  // Signal close level (>0.0001)
-INPUT int ElliottWave_PriceLimitMethod = 0;          // Price limit method
-INPUT float ElliottWave_PriceLimitLevel = 0;         // Price limit level
+INPUT int ElliottWave_PriceStopMethod = 0;           // Price stop method
+INPUT float ElliottWave_PriceStopLevel = 0;          // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 0;          // Tick filter method
 INPUT float ElliottWave_MaxSpread = 6.0;             // Max spread to trade (pips)
 INPUT int ElliottWave_Shift = 0;                     // Shift (relative to the current bar, 0 - default)
@@ -46,7 +46,7 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
   Stg_ElliottWave_Params_Defaults()
       : StgParams(::ElliottWave_SignalOpenMethod, ::ElliottWave_SignalOpenFilterMethod, ::ElliottWave_SignalOpenLevel,
                   ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseLevel,
-                  ::ElliottWave_PriceLimitMethod, ::ElliottWave_PriceLimitLevel, ::ElliottWave_TickFilterMethod,
+                  ::ElliottWave_PriceStopMethod, ::ElliottWave_PriceStopLevel, ::ElliottWave_TickFilterMethod,
                   ::ElliottWave_MaxSpread, ::ElliottWave_Shift) {}
 } stg_ew_defaults;
 
@@ -143,9 +143,9 @@ class Stg_ElliottWave : public Strategy {
   }
 
   /**
-   * Gets price limit value for profit take or stop loss.
+   * Gets price stop value for profit take or stop loss.
    */
-  float PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0) {
+  float PriceStop(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0) {
     double _trail = _level * Market().GetPipSize();
     int _direction = Order::OrderDirection(_cmd, _mode);
     double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
