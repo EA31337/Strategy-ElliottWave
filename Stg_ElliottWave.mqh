@@ -151,7 +151,7 @@ class Stg_ElliottWave : public Strategy {
     double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
     double _result = _default_value;
     switch (_method) {
-      case 0: {
+      case 1: {
         // @todo
       }
     }
