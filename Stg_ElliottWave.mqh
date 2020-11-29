@@ -19,6 +19,7 @@ INPUT float ElliottWave_PriceStopLevel = 0;          // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 0;          // Tick filter method
 INPUT float ElliottWave_MaxSpread = 6.0;             // Max spread to trade (pips)
 INPUT int ElliottWave_Shift = 0;                     // Shift (relative to the current bar, 0 - default)
+INPUT int ElliottWave_OrderCloseTime = -10;          // Order close time in mins (>0) or bars (<0)
 
 // Includes.
 #include <EA31337-classes/Strategy.mqh>
@@ -33,7 +34,7 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
       : StgParams(::ElliottWave_SignalOpenMethod, ::ElliottWave_SignalOpenFilterMethod, ::ElliottWave_SignalOpenLevel,
                   ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseLevel,
                   ::ElliottWave_PriceStopMethod, ::ElliottWave_PriceStopLevel, ::ElliottWave_TickFilterMethod,
-                  ::ElliottWave_MaxSpread, ::ElliottWave_Shift) {}
+                  ::ElliottWave_MaxSpread, ::ElliottWave_Shift, ::ElliottWave_OrderCloseTime) {}
 } stg_ewo_defaults;
 
 // Struct to define strategy parameters to override.
