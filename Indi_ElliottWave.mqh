@@ -20,15 +20,15 @@
  */
 
 // User input params.
-INPUT string __ElliottWave_Indi_Params__ = "-- TMA True indicator params --";  // >>> TMA True indicator <<<
-INPUT ENUM_TIMEFRAMES Indi_EWO_Timeframe = 0;                                  // EWO Timeframe
-INPUT int Indi_EWO_Period1 = 5;                                                // EWO Period 1
-INPUT int Indi_EWO_Period2 = 35;                                               // EWO Period 2
-INPUT ENUM_MA_METHOD Indi_EWO_MA_Method1 = MODE_SMA;                           // EWO MA Method 1
-INPUT ENUM_MA_METHOD Indi_EWO_MA_Method2 = MODE_SMA;                           // EWO MA Method 2
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price1 = PRICE_MEDIAN;               // EWO Applied Price 1
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price2 = PRICE_MEDIAN;               // EWO Applied Price 2
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Shift = 0;                                   // EWO Shift
+INPUT string __ElliottWave_Indi_Params__ = "-- Elliott Wave oscillator params --";  // >>> Elliott Wave oscillator <<<
+INPUT ENUM_TIMEFRAMES Indi_EWO_Timeframe = 0;                                       // EWO Timeframe
+INPUT int Indi_EWO_Period1 = 5;                                                     // EWO Period 1
+INPUT int Indi_EWO_Period2 = 35;                                                    // EWO Period 2
+INPUT ENUM_MA_METHOD Indi_EWO_MA_Method1 = MODE_SMA;                                // EWO MA Method 1
+INPUT ENUM_MA_METHOD Indi_EWO_MA_Method2 = MODE_SMA;                                // EWO MA Method 2
+INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price1 = PRICE_MEDIAN;                    // EWO Applied Price 1
+INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price2 = PRICE_MEDIAN;                    // EWO Applied Price 2
+INPUT ENUM_APPLIED_PRICE Indi_EWO_Shift = 0;                                        // EWO Shift
 
 // Includes.
 #include <EA31337-classes/Indicator.mqh>
@@ -54,7 +54,7 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
         ewo_mm2(_ewo_mm2),
         ewo_ap1(_ewo_ap1),
         ewo_ap2(_ewo_ap2),
-        shift(_shift) {
+        ewo_shift(_shift) {
     max_modes = 2;
     custom_indi_name = "Elliott_Wave_Oscillator2";
     SetDataSourceType(IDATA_ICUSTOM);
@@ -74,12 +74,12 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   int GetPeriod1() { return ewo_period1; }
   int GetPeriod2() { return ewo_period2; }
   // Setters.
-  void SetAppliedPrice1(int _value) { ewo_ap1 = _value; }
-  void SetAppliedPrice2(int _value) { ewo_ap2 = _value; }
+  void SetAppliedPrice1(ENUM_APPLIED_PRICE _value) { ewo_ap1 = _value; }
+  void SetAppliedPrice2(ENUM_APPLIED_PRICE _value) { ewo_ap2 = _value; }
   void SetEwoShift(int _value) { ewo_shift = _value; }
   void SetEwoTf(ENUM_TIMEFRAMES _value) { ewo_tf = _value; }
-  void SetMAMethod1(int _value) { ewo_mm1 = _value; }
-  void SetMAMethod2(int _value) { ewo_mm2 = _value; }
+  void SetMAMethod1(ENUM_MA_METHOD _value) { ewo_mm1 = _value; }
+  void SetMAMethod2(ENUM_MA_METHOD _value) { ewo_mm2 = _value; }
   void SetPeriod1(int _value) { ewo_period1 = _value; }
   void SetPeriod2(int _value) { ewo_period2 = _value; }
 };
@@ -104,12 +104,12 @@ class Indi_ElliottWave : public Indicator {
    * Class constructor.
    */
   Indi_ElliottWave(Indi_ElliottWave_Params &_p)
-      : params(_p.ewo_tf, _p.half_length, _p.ewo_multiplier, _p.ewo_period, _p.bars_to_process, _p.shift),
+      : params(_p.ewo_tf, _p.ewo_period1, _p.ewo_period2, _p.ewo_mm1, _p.ewo_mm2, _p.ewo_ap1, _p.ewo_ap2, _p.shift),
         Indicator((IndicatorParams)_p) {
     params = _p;
   }
   Indi_ElliottWave(Indi_ElliottWave_Params &_p, ENUM_TIMEFRAMES _tf)
-      : params(_p.ewo_tf, _p.half_length, _p.ewo_multiplier, _p.ewo_period, _p.bars_to_process, _p.shift),
+      : params(_p.ewo_tf, _p.ewo_period1, _p.ewo_period2, _p.ewo_mm1, _p.ewo_mm2, _p.ewo_ap1, _p.ewo_ap2, _p.shift),
         Indicator(NULL, _tf) {
     params = _p;
   }
@@ -123,14 +123,14 @@ class Indi_ElliottWave : public Indicator {
    * Returns the indicator's value.
    *
    */
-  double GetValue(ENUM_TMA_TRUE_MODE _mode, int _shift = 0) {
+  double GetValue(int _mode, int _shift = 0) {
     ResetLastError();
     double _value = EMPTY_VALUE;
     switch (params.idstype) {
       case IDATA_ICUSTOM:
         _value = iCustom(istate.handle, GetSymbol(), params.GetEwoTf(), params.custom_indi_name, params.GetTf(),
-                         params.GetPeriod1(), params.GetPeriod2(), params.SetMAMethod1(), params.SetMAMethod1(),
-                         params.GetAppliedPrice1(), params.GetAppliedPrice2(), params.GetEwoShift(), _shift);
+                         params.GetPeriod1(), params.GetPeriod2(), params.GetMAMethod1(), params.GetMAMethod1(),
+                         params.GetAppliedPrice1(), params.GetAppliedPrice2(), params.GetEwoShift(), _mode, _shift);
         break;
       default:
         SetUserError(ERR_USER_NOT_SUPPORTED);
@@ -152,7 +152,7 @@ class Indi_ElliottWave : public Indicator {
       _entry = idata.GetByPos(_position);
     } else {
       _entry.timestamp = GetBarTime(_shift);
-      for (int _mode = 0; _mode < params.max_modes; _mode++) {
+      for (int _mode = 0; _mode < (int)params.max_modes; _mode++) {
         _entry.value.SetValue(params.idvtype, GetValue(_mode, _shift), _mode);
       }
       _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, _entry.value.GetMinDbl(params.idvtype) >= 0);
