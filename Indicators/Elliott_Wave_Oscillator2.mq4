@@ -13,6 +13,7 @@ extern ENUM_MA_METHOD EWO_MA_Method1 = MODE_SMA;              // EWO MA Method 1
 extern ENUM_MA_METHOD EWO_MA_Method2 = MODE_SMA;              // EWO MA Method 2
 extern ENUM_APPLIED_PRICE EWO_Applied_Price1 = PRICE_MEDIAN;  // EWO Applied Price 1
 extern ENUM_APPLIED_PRICE EWO_Applied_Price2 = PRICE_MEDIAN;  // EWO Applied Price 2
+extern int EWO_Shift = 0;                                     // EWO Shift
 //---- buffers
 double Buffer1[];
 double Buffer2[];
@@ -48,8 +49,8 @@ int start() {
   int counted_bars = IndicatorCounted();
   double MA1, MA2;
   for (int i = Bars; i >= 0; i--) {
-    MA1 = iMA(_Symbol, EWO_Timeframe, EWO_Period1, 0, EWO_MA_Method1, EWO_Applied_Price1, i);
-    MA2 = iMA(_Symbol, EWO_Timeframe, EWO_Period2, 0, EWO_MA_Method2, EWO_Applied_Price2, i);
+    MA1 = iMA(_Symbol, EWO_Timeframe, EWO_Period1, EWO_Shift, EWO_MA_Method1, EWO_Applied_Price1, i);
+    MA2 = iMA(_Symbol, EWO_Timeframe, EWO_Period2, EWO_Shift, EWO_MA_Method2, EWO_Applied_Price2, i);
 
     if (Buffer2[i] > 0) {
       Buffer1[i] = MA1 - MA2;
