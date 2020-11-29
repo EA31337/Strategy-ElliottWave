@@ -13,6 +13,7 @@
 // Includes EA31337 framework.
 #include <EA31337-classes/Draw.mqh>
 #include <EA31337-classes/Indicator.mqh>
+#include <EA31337-classes/Indicators/Indi_MA.mqh>
 
 // Defines macros.
 #define Bars (Chart::iBars(_Symbol, _Period))
