@@ -24,7 +24,7 @@ double ExtHistoBuffer[];
 int init() {
   SetIndexStyle(0, DRAW_LINE, STYLE_SOLID);
   SetIndexBuffer(0, ExtHistoBuffer);
-  IndicatorDigits(MarketInfo(Symbol(), 0));
+  IndicatorDigits(MarketInfo(Symbol(), MODE_DIGITS));
   return (0);
 }
 int start() {

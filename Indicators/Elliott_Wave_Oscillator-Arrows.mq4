@@ -10,7 +10,7 @@
 #property indicator_color4 Blue
 #property indicator_level1 0
 
-extern int Signal.period = 5;
+extern int signal_period = 5;
 
 //---- buffers
 double Buffer1[], Buffer2[], b2[], b3[];
@@ -63,7 +63,7 @@ int start() {
     MA34 = iMA(NULL, 0, 34, 0, MODE_SMA, PRICE_MEDIAN, i);
 
     Buffer1[i] = MA5 - MA34;
-    Buffer2[i] = iMAOnArray(Buffer1, Bars, Signal.period, 0, MODE_LWMA, i);
+    Buffer2[i] = iMAOnArray(Buffer1, Bars, signal_period, 0, MODE_LWMA, i);
 
     if (Buffer1[i] > Buffer2[i] && Buffer1[i - 1] < Buffer2[i - 1]) b2[i] = High[i] + 10 * Point;
     if (Buffer1[i] < Buffer2[i] && Buffer1[i - 1] > Buffer2[i - 1]) b3[i] = Low[i] - 10 * Point;

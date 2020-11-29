@@ -134,11 +134,11 @@ string stringUpperCase(string str) {
   string s = str;
 
   for (int length = StringLen(str) - 1; length >= 0; length--) {
-    int char = StringGetChar(s, length);
-    if ((char > 96 && char < 123) || (char > 223 && char < 256))
-      s = StringSetChar(s, length, char - 32);
-    else if (char > -33 && char < 0)
-      s = StringSetChar(s, length, char + 224);
+    int _char = StringGetChar(s, length);
+    if ((_char > 96 && _char < 123) || (_char > 223 && _char < 256))
+      s = StringSetChar(s, length, _char - 32);
+    else if (_char > -33 && _char < 0)
+      s = StringSetChar(s, length, _char + 224);
   }
   return (s);
 }

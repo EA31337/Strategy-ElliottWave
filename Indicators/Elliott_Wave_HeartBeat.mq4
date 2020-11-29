@@ -1,6 +1,7 @@
 //+------------------------------------------------------------------+
 //|                                       Elliott_Wave_HeartBeat.mq4 |
 //+------------------------------------------------------------------+
+#property indicator_buffers 1
 #property indicator_separate_window
 #property indicator_color1 LightBlue
 
