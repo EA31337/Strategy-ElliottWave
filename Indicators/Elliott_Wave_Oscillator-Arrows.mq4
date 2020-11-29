@@ -1,29 +1,26 @@
 //+------------------------------------------------------------------+
-//|                                      Elliott Wave Oscillator.mq4 |
+//|                               Elliott_Wave_Oscillator-Arrows.mq4 |
 //+------------------------------------------------------------------+
 
-#property indicator_separate_window
-#property indicator_buffers 2
+#property indicator_chart_window
+#property indicator_buffers 4
 #property indicator_color1 DarkKhaki
 #property indicator_color2 Red
+#property indicator_color3 Red
+#property indicator_color4 Blue
 #property indicator_level1 0
 
-extern bool Main.Line.Histogram = false;
 extern int Signal.period = 5;
 
 //---- buffers
-double Buffer1[], Buffer2[];
-
+double Buffer1[], Buffer2[], b2[], b3[];
 //+------------------------------------------------------------------+
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
 int init() {
   //---- indicators
-  if (Main.Line.Histogram)
-    SetIndexStyle(0, DRAW_HISTOGRAM, STYLE_SOLID, 2);
-  else
-    SetIndexStyle(0, DRAW_LINE, STYLE_SOLID, 2);
 
+  SetIndexStyle(0, DRAW_LINE, STYLE_SOLID, 2);
   SetIndexBuffer(0, Buffer1);
   SetIndexLabel(0, "EWO");
 
@@ -32,6 +29,14 @@ int init() {
   SetIndexLabel(1, "Signal");
 
   IndicatorShortName("Elliott Wave Oscillator");
+
+  SetIndexStyle(2, DRAW_ARROW, STYLE_SOLID, 1);
+  SetIndexArrow(2, 234);  // down  226 234  242
+  SetIndexBuffer(2, b2);
+
+  SetIndexStyle(3, DRAW_ARROW, STYLE_SOLID, 1);
+  SetIndexArrow(3, 233);  // UP   225  233 241
+  SetIndexBuffer(3, b3);
   //----
   return (0);
 }
@@ -58,12 +63,11 @@ int start() {
     MA34 = iMA(NULL, 0, 34, 0, MODE_SMA, PRICE_MEDIAN, i);
 
     Buffer1[i] = MA5 - MA34;
-  }
-
-  for (i = 0; i < limit; i++) {
     Buffer2[i] = iMAOnArray(Buffer1, Bars, Signal.period, 0, MODE_LWMA, i);
-  }
 
+    if (Buffer1[i] > Buffer2[i] && Buffer1[i - 1] < Buffer2[i - 1]) b2[i] = High[i] + 10 * Point;
+    if (Buffer1[i] < Buffer2[i] && Buffer1[i - 1] > Buffer2[i - 1]) b3[i] = Low[i] - 10 * Point;
+  }
   //----
   return (0);
 }
