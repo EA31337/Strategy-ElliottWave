@@ -1,6 +1,7 @@
 //+------------------------------------------------------------------+
-//|                                      Elliott Wave Oscillator.mq4 |
+//|                                     Elliott_Wave_Oscillator1.mq4 |
 //+------------------------------------------------------------------+
+#property indicator_buffers 1
 #property indicator_separate_window
 #property indicator_color1 DimGray
 //---- input parameters
@@ -13,11 +14,11 @@ double Buffer1[];
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
 int init() {
-  string short_name;
   //---- indicators
   SetIndexStyle(0, DRAW_HISTOGRAM, STYLE_SOLID, 2);
   SetIndexBuffer(0, Buffer1);
   //---- name for DataWindow and indicator subwindow label
+  string short_name;
   short_name = "EWO(" + EWOPeriod1 + ", " + EWOPeriod2 + ")";
   IndicatorShortName(short_name);
   SetIndexLabel(0, "EWO");

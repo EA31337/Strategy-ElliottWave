@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                Elliott_Wave_Oscillator-Trend.mq4 |
+//|                               Elliott_Wave_Oscillator1-Trend.mq4 |
 //+------------------------------------------------------------------+
 #property indicator_separate_window
 #property indicator_buffers 3
