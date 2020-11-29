@@ -2,8 +2,10 @@
 //|                                      Elliott Wave Oscillator.mq4 |
 //+------------------------------------------------------------------+
 #property indicator_separate_window
-#property indicator_color1 DarkKhaki
-
+#property indicator_color1 DimGray
+//---- input parameters
+extern int EWOPeriod1 = 5;
+extern int EWOPeriod2 = 35;
 //---- buffers
 double Buffer1[];
 
@@ -11,9 +13,15 @@ double Buffer1[];
 //| Custom indicator initialization function                         |
 //+------------------------------------------------------------------+
 int init() {
+  string short_name;
+  //---- indicators
   SetIndexStyle(0, DRAW_HISTOGRAM, STYLE_SOLID, 2);
   SetIndexBuffer(0, Buffer1);
+  //---- name for DataWindow and indicator subwindow label
+  short_name = "EWO(" + EWOPeriod1 + ", " + EWOPeriod2 + ")";
+  IndicatorShortName(short_name);
   SetIndexLabel(0, "EWO");
+  //----
   return (0);
 }
 //+------------------------------------------------------------------+
@@ -25,12 +33,11 @@ int deinit() { return (0); }
 //+------------------------------------------------------------------+
 int start() {
   int counted_bars = IndicatorCounted();
-  double MA5, MA35;
+  double MA1, MA2;
   for (int i = Bars; i >= 0; i--) {
-    MA5 = iMA(NULL, 0, 5, 0, MODE_SMA, PRICE_MEDIAN, i);
-    MA35 = iMA(NULL, 0, 35, 0, MODE_SMA, PRICE_MEDIAN, i);
-
-    Buffer1[i] = MA5 - MA35;
+    MA1 = iMA(NULL, 0, EWOPeriod1, 0, MODE_SMA, PRICE_MEDIAN, i);
+    MA2 = iMA(NULL, 0, EWOPeriod2, 0, MODE_SMA, PRICE_MEDIAN, i);
+    Buffer1[i] = MA1 - MA2;
   }
   return (0);
 }
