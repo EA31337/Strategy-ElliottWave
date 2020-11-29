@@ -5,13 +5,13 @@
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
 struct Indi_ElliottWave_Params_H1 : Indi_ElliottWave_Params {
-  Indi_ElliottWave_Params_H1() : Indi_ElliottWave_Params(indi_elli_defaults, PERIOD_H1) { shift = 0; }
-} indi_elli_h1;
+  Indi_ElliottWave_Params_H1() : Indi_ElliottWave_Params(indi_ewo_defaults, PERIOD_H1) { shift = 0; }
+} indi_ewo_h1;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
 struct Stg_ElliottWave_Params_H1 : StgParams {
   // Struct constructor.
-  Stg_ElliottWave_Params_H1() : StgParams(stg_elli_defaults) {
+  Stg_ElliottWave_Params_H1() : StgParams(stg_ewo_defaults) {
     lot_size = 0;
     signal_open_method = 0;
     signal_open_filter = 1;
@@ -24,4 +24,4 @@ struct Stg_ElliottWave_Params_H1 : StgParams {
     tick_filter_method = 1;
     max_spread = 0;
   }
-} stg_elli_h1;
+} stg_ewo_h1;
