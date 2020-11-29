@@ -6,8 +6,13 @@
 #property indicator_color1 LawnGreen
 #property indicator_color2 Red
 //---- input parameters
-extern int EWOPeriod1 = 5;
-extern int EWOPeriod2 = 35;
+extern ENUM_TIMEFRAMES EWO_Timeframe = 0;                     // EWO Timeframe
+extern int EWO_Period1 = 5;                                   // EWO Period 1
+extern int EWO_Period2 = 35;                                  // EWO Period 2
+extern ENUM_MA_METHOD EWO_MA_Method1 = MODE_SMA;              // EWO MA Method 1
+extern ENUM_MA_METHOD EWO_MA_Method2 = MODE_SMA;              // EWO MA Method 2
+extern ENUM_APPLIED_PRICE EWO_Applied_Price1 = PRICE_MEDIAN;  // EWO Applied Price 1
+extern ENUM_APPLIED_PRICE EWO_Applied_Price2 = PRICE_MEDIAN;  // EWO Applied Price 2
 //---- buffers
 double Buffer1[];
 double Buffer2[];
@@ -26,7 +31,7 @@ int init() {
   SetIndexBuffer(1, Buffer2);
   //---- name for DataWindow and indicator subwindow label
   string short_name;
-  short_name = "EWO(" + EWOPeriod1 + ", " + EWOPeriod2 + ")";
+  short_name = "EWO(" + EWO_Period1 + ", " + EWO_Period2 + ")";
   IndicatorShortName(short_name);
   SetIndexLabel(0, "EWO");
   //----
@@ -43,8 +48,8 @@ int start() {
   int counted_bars = IndicatorCounted();
   double MA1, MA2;
   for (int i = Bars; i >= 0; i--) {
-    MA1 = iMA(NULL, 0, EWOPeriod1, 0, MODE_SMA, PRICE_MEDIAN, i);
-    MA2 = iMA(NULL, 0, EWOPeriod2, 0, MODE_SMA, PRICE_MEDIAN, i);
+    MA1 = iMA(_Symbol, EWO_Timeframe, EWO_Period1, 0, EWO_MA_Method1, EWO_Applied_Price1, i);
+    MA2 = iMA(_Symbol, EWO_Timeframe, EWO_Period2, 0, EWO_MA_Method2, EWO_Applied_Price2, i);
 
     if (Buffer2[i] > 0) {
       Buffer1[i] = MA1 - MA2;
