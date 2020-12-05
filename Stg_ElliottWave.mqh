@@ -100,15 +100,15 @@ class Stg_ElliottWave : public Strategy {
     double pip_level = _level * Chart().GetPipSize();
     switch (_cmd) {
       case ORDER_TYPE_BUY:
-        _result = _indi[CURR].value[0] < _indi[CURR].value[1] + pip_level;
+        _result = _indi[CURR][0] < _indi[CURR][1] + pip_level;
         if (_method != 0) {
-          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) < _indi[CURR].value[TMA_TRUE_LOWER];
+          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) < _indi[CURR][TMA_TRUE_LOWER];
         }
         break;
       case ORDER_TYPE_SELL:
-        _result = _indi[CURR].value[1] > _indi[CURR].value[0] + pip_level;
+        _result = _indi[CURR][1] > _indi[CURR][0] + pip_level;
         if (_method != 0) {
-          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) > _indi[CURR].value[TMA_TRUE_UPPER];
+          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) > _indi[CURR][TMA_TRUE_UPPER];
         }
         break;
     }
@@ -138,7 +138,7 @@ class Stg_ElliottWave : public Strategy {
     double _result = _default_value;
     switch (_method) {
       case 1:
-        //_result = (_direction > 0 ? _indi[CURR].value[0] : _indi[CURR].value[1]) + _trail * _direction;
+        //_result = (_direction > 0 ? _indi[CURR][0] : _indi[CURR][1]) + _trail * _direction;
         break;
     }
     return (float)_result;

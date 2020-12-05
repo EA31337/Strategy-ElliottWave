@@ -27,7 +27,7 @@ INPUT ENUM_MA_METHOD Indi_EWO_MA_Method1 = MODE_SMA;                            
 INPUT ENUM_MA_METHOD Indi_EWO_MA_Method2 = MODE_SMA;                                // EWO MA Method 2
 INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price1 = PRICE_MEDIAN;                    // EWO Applied Price 1
 INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price2 = PRICE_MEDIAN;                    // EWO Applied Price 2
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Shift = (ENUM_APPLIED_PRICE) 0;                   // EWO Shift
+INPUT ENUM_APPLIED_PRICE Indi_EWO_Shift = (ENUM_APPLIED_PRICE)0;                    // EWO Shift
 
 // Includes.
 #include <EA31337-classes/Indicator.mqh>
@@ -42,9 +42,8 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   int ewo_period1, ewo_period2;
   int ewo_shift;
   // Struct constructors.
-  void Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1,
-                               ENUM_MA_METHOD _ewo_mm2, ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2,
-                               int _shift)
+  void Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1, ENUM_MA_METHOD _ewo_mm2,
+                               ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2, int _shift)
       : ewo_period1(_ewo_period1),
         ewo_period2(_ewo_period2),
         ewo_mm1(_ewo_mm1),
@@ -82,9 +81,8 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
 // Defines struct with default user indicator values.
 struct Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
   Indi_ElliottWave_Params_Defaults()
-      : Indi_ElliottWave_Params(::Indi_EWO_Period1, ::Indi_EWO_Period2, ::Indi_EWO_MA_Method1,
-                                ::Indi_EWO_MA_Method2, ::Indi_EWO_Applied_Price1, ::Indi_EWO_Applied_Price2,
-                                ::Indi_EWO_Shift) {}
+      : Indi_ElliottWave_Params(::Indi_EWO_Period1, ::Indi_EWO_Period2, ::Indi_EWO_MA_Method1, ::Indi_EWO_MA_Method2,
+                                ::Indi_EWO_Applied_Price1, ::Indi_EWO_Applied_Price2, ::Indi_EWO_Shift) {}
 } indi_ewo_defaults;
 
 /**
@@ -123,8 +121,9 @@ class Indi_ElliottWave : public Indicator {
     double _value = EMPTY_VALUE;
     switch (params.idstype) {
       case IDATA_ICUSTOM:
-        _value = iCustom(istate.handle, GetSymbol(), params.GetTf(), params.custom_indi_name, params.GetPeriod1(), params.GetPeriod2(), params.GetMAMethod1(), params.GetMAMethod1(),
-                         params.GetAppliedPrice1(), params.GetAppliedPrice2(), params.GetEwoShift(), _mode, _shift);
+        _value = iCustom(istate.handle, GetSymbol(), params.GetTf(), params.custom_indi_name, params.GetPeriod1(),
+                         params.GetPeriod2(), params.GetMAMethod1(), params.GetMAMethod1(), params.GetAppliedPrice1(),
+                         params.GetAppliedPrice2(), params.GetEwoShift(), _mode, _shift);
         break;
       default:
         SetUserError(ERR_USER_NOT_SUPPORTED);
