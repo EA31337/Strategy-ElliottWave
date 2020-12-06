@@ -22,8 +22,6 @@ INPUT int ElliottWave_Shift = 0;                     // Shift (relative to the c
 INPUT int ElliottWave_OrderCloseTime = -10;          // Order close time in mins (>0) or bars (<0)
 
 // Includes.
-#include <EA31337-classes/Strategy.mqh>
-
 #include "Indi_ElliottWave.mqh"
 
 // Structs.

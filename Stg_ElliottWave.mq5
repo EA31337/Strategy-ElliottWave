@@ -5,6 +5,8 @@
 
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
+#include <EA31337-classes/Indicator.mqh>
+#include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
 input string __ElliottWave_Parameters__ = "-- ElliottWave strategy params --";  // >>> ELLIOTT WAVE <<<

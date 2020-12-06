@@ -29,9 +29,6 @@ INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price1 = PRICE_MEDIAN;                
 INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price2 = PRICE_MEDIAN;                    // EWO Applied Price 2
 INPUT ENUM_APPLIED_PRICE Indi_EWO_Shift = (ENUM_APPLIED_PRICE)0;                    // EWO Shift
 
-// Includes.
-#include <EA31337-classes/Indicator.mqh>
-
 // Structs.
 
 // Defines struct to store indicator parameter values.
