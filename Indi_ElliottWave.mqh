@@ -143,9 +143,9 @@ class Indi_ElliottWave : public Indicator {
     } else {
       _entry.timestamp = GetBarTime(_shift);
       for (int _mode = 0; _mode < (int)params.max_modes; _mode++) {
-        _entry.value.SetValue(params.idvtype, GetValue(_mode, _shift), _mode);
+        _entry.values[_mode] = GetValue(_mode, _shift);
       }
-      _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, _entry.value.GetMinDbl(params.idvtype) >= 0);
+      _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, _entry.GetMin<double>() >= 0);
       if (_entry.IsValid()) {
         idata.Add(_entry, _bar_time);
       }
