@@ -1,0 +1,7 @@
+; Optimize strategy shift param.
+ElliottWave_Shift,1=0
+ElliottWave_Shift,2=1
+ElliottWave_Shift,3=1
+ElliottWave_Shift,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1

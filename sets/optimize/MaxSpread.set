@@ -1,0 +1,7 @@
+; Optimize max spread param.
+ElliottWave_MaxSpread,1=10
+ElliottWave_MaxSpread,2=10
+ElliottWave_MaxSpread,3=40
+ElliottWave_MaxSpread,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1

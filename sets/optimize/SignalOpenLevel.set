@@ -1,0 +1,7 @@
+; Optimize signal open level param.
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_SignalOpenLevel,1=0
+ElliottWave_SignalOpenLevel,2=1
+ElliottWave_SignalOpenLevel,3=10
+ElliottWave_SignalOpenLevel,F=1
+ElliottWave_TickFilterMethod=1

@@ -1,0 +1,7 @@
+; Optimize price stop level param.
+ElliottWave_PriceStopLevel,1=10
+ElliottWave_PriceStopLevel,2=5
+ElliottWave_PriceStopLevel,3=40
+ElliottWave_PriceStopLevel,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1

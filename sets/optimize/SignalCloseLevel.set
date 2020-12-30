@@ -1,0 +1,7 @@
+; Optimize signal close level param.
+ElliottWave_SignalCloseLevel,1=10
+ElliottWave_SignalCloseLevel,2=5
+ElliottWave_SignalCloseLevel,3=40
+ElliottWave_SignalCloseLevel,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1

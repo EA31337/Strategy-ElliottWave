@@ -1,0 +1,8 @@
+; Optimize price stop method param.
+ElliottWave_PriceStopMethod,1=0
+ElliottWave_PriceStopMethod,2=1
+ElliottWave_PriceStopMethod,3=4
+ElliottWave_PriceStopMethod,F=1
+ElliottWave_OrderCloseTime=-20
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1

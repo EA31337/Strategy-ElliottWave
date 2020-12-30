@@ -1,0 +1,6 @@
+; Optimize signal open filter method param.
+ElliottWave_SignalOpenFilterMethod,1=0
+ElliottWave_SignalOpenFilterMethod,2=9
+ElliottWave_SignalOpenFilterMethod,3=49
+ElliottWave_SignalOpenFilterMethod,F=1
+ElliottWave_TickFilterMethod=1

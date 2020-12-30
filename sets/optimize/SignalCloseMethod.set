@@ -1,0 +1,7 @@
+; Optimize signal close method param.
+ElliottWave_SignalCloseMethod,1=-4
+ElliottWave_SignalCloseMethod,2=1
+ElliottWave_SignalCloseMethod,3=4
+ElliottWave_SignalCloseMethod,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1

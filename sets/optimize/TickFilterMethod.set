@@ -1,0 +1,6 @@
+; Optimize tick filter method param.
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod,1=1
+ElliottWave_TickFilterMethod,2=1
+ElliottWave_TickFilterMethod,3=32
+ElliottWave_TickFilterMethod,F=1
