@@ -7,19 +7,19 @@
  */
 
 // User inputs.
-INPUT float ElliottWave_LotSize = 0;                 // Lot size
-INPUT int ElliottWave_SignalOpenMethod = 0;          // Signal open method (0-1)
-INPUT float ElliottWave_SignalOpenLevel = 0.0004f;   // Signal open level (>0.0001)
-INPUT int ElliottWave_SignalOpenFilterMethod = 0;    // Signal open filter method
-INPUT int ElliottWave_SignalOpenBoostMethod = 0;     // Signal open boost method
-INPUT int ElliottWave_SignalCloseMethod = 0;         // Signal close method
-INPUT float ElliottWave_SignalCloseLevel = 0.0004f;  // Signal close level (>0.0001)
-INPUT int ElliottWave_PriceStopMethod = 0;           // Price stop method
-INPUT float ElliottWave_PriceStopLevel = 0;          // Price stop level
-INPUT int ElliottWave_TickFilterMethod = 0;          // Tick filter method
-INPUT float ElliottWave_MaxSpread = 6.0;             // Max spread to trade (pips)
-INPUT int ElliottWave_Shift = 0;                     // Shift (relative to the current bar, 0 - default)
-INPUT int ElliottWave_OrderCloseTime = -10;          // Order close time in mins (>0) or bars (<0)
+INPUT float ElliottWave_LotSize = 0;               // Lot size
+INPUT int ElliottWave_SignalOpenMethod = 0;        // Signal open method (0-1)
+INPUT float ElliottWave_SignalOpenLevel = 0.0f;    // Signal open level (>0.0001)
+INPUT int ElliottWave_SignalOpenFilterMethod = 1;  // Signal open filter method
+INPUT int ElliottWave_SignalOpenBoostMethod = 0;   // Signal open boost method
+INPUT int ElliottWave_SignalCloseMethod = 0;       // Signal close method
+INPUT float ElliottWave_SignalCloseLevel = 0.0f;   // Signal close level (>0.0001)
+INPUT int ElliottWave_PriceStopMethod = 0;         // Price stop method
+INPUT float ElliottWave_PriceStopLevel = 0;        // Price stop level
+INPUT int ElliottWave_TickFilterMethod = 1;        // Tick filter method
+INPUT float ElliottWave_MaxSpread = 4.0;           // Max spread to trade (pips)
+INPUT int ElliottWave_Shift = 0;                   // Shift (relative to the current bar, 0 - default)
+INPUT int ElliottWave_OrderCloseTime = -20;        // Order close time in mins (>0) or bars (<0)
 
 // Includes.
 #include "Indi_ElliottWave.mqh"
