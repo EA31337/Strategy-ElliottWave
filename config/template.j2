@@ -1,0 +1,32 @@
+/**
+ * @file
+ * Defines default strategy parameter values for the given timeframe.
+ */
+
+// Defines indicator's parameter values for the given pair symbol and timeframe.
+struct Indi_Force_Params_{{ Timeframe }} : Indi_Force_Params {
+  Indi_Force_Params_{{ Timeframe }}() : Indi_Force_Params(indi_force_defaults, PERIOD_{{ Timeframe }}) {
+    applied_price = (ENUM_APPLIED_PRICE){{ Force_Indi_Force_Applied_Price | default(0) }};
+    ma_method = {{ Force_Indi_Force_MA_Method | default(0) }};
+    period = {{ Force_Indi_Force_Period | default(0) }};
+    shift = {{ Force_Shift | default(0) }};
+  }
+} indi_force_{{ Timeframe | lower }};
+
+// Defines strategy's parameter values for the given pair symbol and timeframe.
+struct Stg_Force_Params_{{ Timeframe }} : StgParams {
+  // Struct constructor.
+  Stg_Force_Params_{{ Timeframe }}() : StgParams(stg_force_defaults) {
+    lot_size = {{ Force_LotSize | default(0) }};
+    signal_open_method = {{ Force_SignalOpenMethod | default(0) }};
+    signal_open_filter = {{ Force_SignalOpenFilterMethod | default(1) }};
+    signal_open_level = {{ Force_SignalOpenLevel | default(0) }};
+    signal_open_boost = {{ Force_SignalOpenBoostMethod | default(0) }};
+    signal_close_method = {{ Force_SignalCloseMethod | default(0) }};
+    signal_close_level = {{ Force_SignalCloseLevel | default(0) }};
+    price_stop_method = {{ Force_PriceStopMethod | default(0) }};
+    price_stop_level = {{ Force_SignalCloseLevel | default(1) }};
+    tick_filter_method = {{ Force_TickFilterMethod  | default(1) }};
+    max_spread = {{ Force_MaxSpread | default(0) }};
+  }
+} stg_force_{{ Timeframe | lower }};
