@@ -68,6 +68,7 @@ jobs:
       - name: Run strategy
         uses: ea31337/mql-tester-action@master
         with:
+          BtDeposit: 100000
           BtDest: ${{ github.workspace }}/_results
           BtMonths: ${{ matrix.month }}
           BtYears: ${{ matrix.year }}
