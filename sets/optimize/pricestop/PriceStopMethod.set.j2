@@ -1,6 +1,6 @@
 ElliottWave_Indi_ElliottWave_Applied_Price={{ applied_price | replace("(ENUM_APPLIED_PRICE)", "") | int | default(0) }}
 ElliottWave_Indi_ElliottWave_MA_Method={{ ma_method | default(0) }}
-ElliottWave_Indi_ElliottWave_Period={{ period | default(4) }}
+ElliottWave_Indi_ElliottWave_Period={{ (period | default(0) | int) }}
 ElliottWave_Indi_ElliottWave_Shift={{ shift | default(0) }}
 ElliottWave_LotSize={{ lot_size | default(0) }}
 ElliottWave_PriceStopLevel={{ price_stop_level | replace("(float)", "") | float | default(0) }}
