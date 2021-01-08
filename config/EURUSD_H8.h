@@ -20,7 +20,7 @@ struct Stg_ElliottWave_Params_H8 : StgParams {
     signal_close_method = 0;
     signal_close_level = (float)0;
     price_stop_method = 0;
-    price_stop_level = 2;
+    price_stop_level = (float)2;
     tick_filter_method = 1;
     max_spread = 0;
   }

@@ -25,7 +25,7 @@ struct Stg_ElliottWave_Params_{{ Timeframe }} : StgParams {
     signal_close_method = {{ ElliottWave_SignalCloseMethod | default(0) }};
     signal_close_level = (float){{ ElliottWave_SignalCloseLevel | default(0) }};
     price_stop_method = {{ ElliottWave_PriceStopMethod | default(0) }};
-    price_stop_level = {{ ElliottWave_SignalCloseLevel | default(1) }};
+    price_stop_level = (float){{ ElliottWave_SignalCloseLevel | default(1) }};
     tick_filter_method = {{ ElliottWave_TickFilterMethod  | default(1) }};
     max_spread = {{ ElliottWave_MaxSpread | default(0) }};
   }
