@@ -20,11 +20,27 @@ INPUT int ElliottWave_TickFilterMethod = 1;        // Tick filter method
 INPUT float ElliottWave_MaxSpread = 4.0;           // Max spread to trade (pips)
 INPUT int ElliottWave_Shift = 0;                   // Shift (relative to the current bar, 0 - default)
 INPUT int ElliottWave_OrderCloseTime = -20;        // Order close time in mins (>0) or bars (<0)
-
-// Includes.
-#include "Indi_ElliottWave.mqh"
+INPUT string __ElliottWave_Indi_ElliottWave_Params__ =
+    "-- ElliottWave strategy: Elliott Wave oscillator params --";  // >>> ElliottWave startegy: Elliott Wave oscillator
+                                                                   // <<<
+INPUT int ElliottWave_Indi_EWO_Period1 = 5;                        // EWO Period 1
+INPUT int ElliottWave_Indi_EWO_Period2 = 35;                       // EWO Period 2
+INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method1 = MODE_SMA;   // EWO MA Method 1
+INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method2 = MODE_SMA;   // EWO MA Method 2
+INPUT ENUM_APPLIED_PRICE ElliottWave_Indi_EWO_Applied_Price1 = PRICE_MEDIAN;  // EWO Applied Price 1
+INPUT ENUM_APPLIED_PRICE ElliottWave_Indi_EWO_Applied_Price2 = PRICE_MEDIAN;  // EWO Applied Price 2
+INPUT int ElliottWave_Indi_EWO_Shift = 0;                                     // EWO Shift
 
 // Structs.
+
+// Defines struct with default user indicator values.
+struct Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
+  Indi_ElliottWave_Params_Defaults()
+      : Indi_ElliottWave_Params(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
+                                            ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
+                                            ::ElliottWave_Indi_EWO_Applied_Price1,
+                                            ::ElliottWave_Indi_EWO_Applied_Price2, ::ElliottWave_Indi_EWO_Shift) {}
+} indi_ewo_defaults;
 
 // Defines struct with default user strategy values.
 struct Stg_ElliottWave_Params_Defaults : StgParams {

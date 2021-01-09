@@ -5,7 +5,15 @@
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
 struct Indi_ElliottWave_Params_M30 : Indi_ElliottWave_Params {
-  Indi_ElliottWave_Params_M30() : Indi_ElliottWave_Params(indi_ewo_defaults, PERIOD_M30) { shift = 0; }
+  Indi_ElliottWave_Params_M30() : Indi_ElliottWave_Params(indi_ewo_defaults, PERIOD_M30) {
+    shift = 0;
+    ewo_ap1 = (ENUM_APPLIED_PRICE)0;
+    ewo_ap2 = (ENUM_APPLIED_PRICE)0;
+    ewo_mm1 = (ENUM_MA_METHOD)0;
+    ewo_mm2 = (ENUM_MA_METHOD)0;
+    ewo_period1 = 20;
+    ewo_period2 = 20;
+  }
 } indi_ewo_m30;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.

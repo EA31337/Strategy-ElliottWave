@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                      Copyright 2016-2020, kenorb |
+//|                                      Copyright 2016-2021, kenorb |
 //|                                       https://github.com/EA31337 |
 //+------------------------------------------------------------------+
 
@@ -19,16 +19,6 @@
  *
  */
 
-// User input params.
-INPUT string __ElliottWave_Indi_Params__ = "-- Elliott Wave oscillator params --";  // >>> Elliott Wave oscillator <<<
-INPUT int Indi_EWO_Period1 = 5;                                                     // EWO Period 1
-INPUT int Indi_EWO_Period2 = 35;                                                    // EWO Period 2
-INPUT ENUM_MA_METHOD Indi_EWO_MA_Method1 = MODE_SMA;                                // EWO MA Method 1
-INPUT ENUM_MA_METHOD Indi_EWO_MA_Method2 = MODE_SMA;                                // EWO MA Method 2
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price1 = PRICE_MEDIAN;                    // EWO Applied Price 1
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Applied_Price2 = PRICE_MEDIAN;                    // EWO Applied Price 2
-INPUT ENUM_APPLIED_PRICE Indi_EWO_Shift = (ENUM_APPLIED_PRICE)0;                    // EWO Shift
-
 // Structs.
 
 // Defines struct to store indicator parameter values.
@@ -37,7 +27,6 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   ENUM_APPLIED_PRICE ewo_ap1, ewo_ap2;
   ENUM_MA_METHOD ewo_mm1, ewo_mm2;
   int ewo_period1, ewo_period2;
-  int ewo_shift;
   // Struct constructors.
   void Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1, ENUM_MA_METHOD _ewo_mm2,
                                ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2, int _shift)
@@ -46,10 +35,10 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
         ewo_mm1(_ewo_mm1),
         ewo_mm2(_ewo_mm2),
         ewo_ap1(_ewo_ap1),
-        ewo_ap2(_ewo_ap2),
-        ewo_shift(_shift) {
+        ewo_ap2(_ewo_ap2) {
     max_modes = 2;
     custom_indi_name = "Elliott_Wave_Oscillator2";
+    shift = _shift;
     SetDataSourceType(IDATA_ICUSTOM);
     SetDataValueType(TYPE_DOUBLE);
   };
@@ -60,7 +49,6 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   // Getters.
   int GetAppliedPrice1() { return ewo_ap1; }
   int GetAppliedPrice2() { return ewo_ap2; }
-  int GetEwoShift() { return ewo_shift; }
   int GetMAMethod1() { return ewo_mm1; }
   int GetMAMethod2() { return ewo_mm2; }
   int GetPeriod1() { return ewo_period1; }
@@ -68,19 +56,11 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   // Setters.
   void SetAppliedPrice1(ENUM_APPLIED_PRICE _value) { ewo_ap1 = _value; }
   void SetAppliedPrice2(ENUM_APPLIED_PRICE _value) { ewo_ap2 = _value; }
-  void SetEwoShift(int _value) { ewo_shift = _value; }
   void SetMAMethod1(ENUM_MA_METHOD _value) { ewo_mm1 = _value; }
   void SetMAMethod2(ENUM_MA_METHOD _value) { ewo_mm2 = _value; }
   void SetPeriod1(int _value) { ewo_period1 = _value; }
   void SetPeriod2(int _value) { ewo_period2 = _value; }
 };
-
-// Defines struct with default user indicator values.
-struct Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
-  Indi_ElliottWave_Params_Defaults()
-      : Indi_ElliottWave_Params(::Indi_EWO_Period1, ::Indi_EWO_Period2, ::Indi_EWO_MA_Method1, ::Indi_EWO_MA_Method2,
-                                ::Indi_EWO_Applied_Price1, ::Indi_EWO_Applied_Price2, ::Indi_EWO_Shift) {}
-} indi_ewo_defaults;
 
 /**
  * Implements indicator class.
@@ -120,7 +100,7 @@ class Indi_ElliottWave : public Indicator {
       case IDATA_ICUSTOM:
         _value = iCustom(istate.handle, GetSymbol(), params.GetTf(), params.custom_indi_name, params.GetPeriod1(),
                          params.GetPeriod2(), params.GetMAMethod1(), params.GetMAMethod1(), params.GetAppliedPrice1(),
-                         params.GetAppliedPrice2(), params.GetEwoShift(), _mode, _shift);
+                         params.GetAppliedPrice2(), params.GetShift(), _mode, _shift);
         break;
       default:
         SetUserError(ERR_USER_NOT_SUPPORTED);
