@@ -1,0 +1,231 @@
+---
+name: Optimize Indicator params
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - 'optimize-indi'
+
+jobs:
+  Compile:
+    defaults:
+      run:
+        shell: powershell
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          path: Include/EA31337-classes
+          ref: dev
+          repository: EA31337/EA31337-classes
+      - name: Compile for MQL4
+        uses: fx31337/mql-compile-action@master
+        with:
+          include: .
+          init-platform: true
+          mt-version: 5.0.0.2361
+          path: Stg_ElliottWave.mq4
+          verbose: true
+      - name: Compile for MQL5
+        uses: fx31337/mql-compile-action@master
+        with:
+          include: .
+          mt-version: 5.0.0.2515
+          path: Stg_ElliottWave.mq5
+          verbose: true
+      - name: List compiled files
+        run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
+      - run: Get-Location
+      - name: Upload EA
+        uses: actions/upload-artifact@v2
+        with:
+          name: EA
+          path: '*.ex?'
+  Process:
+    env:
+      SETS_DIR: sets/optimize/indicator
+    outputs:
+      sets-list: ${{ steps.get-sets.outputs.sets }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set output with list of sets
+        id: get-sets
+        run: |
+          import glob, json, os
+          os.chdir(os.getenv('SETS_DIR'))
+          files = glob.glob("*.set")
+          print("::set-output name=sets::{}".format(json.dumps(files)))
+        shell: python
+      - name: Display output
+        run: echo ${{ steps.get-sets.outputs.sets }}
+      - name: Upload config
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: 'config'
+      - name: Upload sets
+        uses: actions/upload-artifact@v2
+        with:
+          name: sets
+          path: ${{ env.SETS_DIR }}
+  Optimize:
+    needs: [Compile, Process]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pair: [EURUSD]
+        setfile: ${{ fromJson(needs.Process.outputs.sets-list) }}
+        tf: [M1, M5, M15, M30]
+      max-parallel: 4
+    steps:
+      - run: echo ${{ matrix.setfile }}
+      - uses: actions/download-artifact@v2
+        with:
+          path: .
+      - name: Generate env file
+        run: >-
+          grep -w = config/${{ matrix.pair }}_${{ matrix.tf }}.h
+          | sed -e 's/[; ]*//g;s/([^)]*)//g' | tee sets/.env
+      - name: Generate SET file from the template file
+        uses: cuchi/jinja2-action@v1.2.0
+        with:
+          template: sets/${{ matrix.setfile }}.j2
+          output_file: sets/${{ matrix.setfile }}
+          data_file: sets/.env
+          data_format: env
+      - name: Sets input data
+        id: data
+        run: |
+          tfs = {"M1":1, "M5":2, "M15":4, "M30":8, "H1":16, "H4":32, "H8":64}
+          print("::set-output name=tf::{}".format(tfs.get("${{ matrix.tf }}")))
+          setfile = "sets/${{ matrix.setfile }}"
+          for line in open(setfile, "r").readlines():
+            if line.strip().endswith(",F=1"):
+              print("::set-output name=param::{}"
+                .format(line.strip().replace(",F=1", "")))
+              break
+        shell: python
+      - name: Sets timeframe
+        run: echo Active_Tfs=${{ steps.data.outputs.tf }} | tee -a sets/*.set
+      - name: Display SET file
+        run: cat sets/${{ matrix.setfile }}
+      - uses: ea31337/mql-tester-action@master
+        with:
+          BtDeposit: 100000
+          BtDest: ${{ github.workspace }}/_results
+          BtMonths: 10-12
+          BtPair: ${{ matrix.pair }}
+          BtYears: 2019
+          OptFormatBrief: true
+          OptFormatJson: true
+          OptOptimize: true
+          OptVerbose: true
+          SetFile: ${{ github.workspace }}/sets/${{ matrix.setfile }}
+          SetParams: ${{ steps.data.outputs.param }}
+          TestExpert: "Stg_ElliottWave"
+          TestPeriod: ${{ matrix.tf }}
+          TestReportName: Report-${{ matrix.pair }}-${{ matrix.tf }}
+      - name: Upload result files
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: ./_results/*.*
+      - name: Process results
+        run: |
+          pwd
+          ls
+          jq --version
+          jq . _results/*.json
+          jq -r '(."Result params"/";")[0]' _results/*.json
+          jq -r '((."Result params"/";")[0]/"=")[0]'
+          jq -r '(."Result params"/";")[0]' _results/*.json \
+            >> $GITHUB_ENV
+          jq -r '"pname="+((."Result params"/";")[0]/"=")[0]' \
+            _results/*.json >> $GITHUB_ENV
+      - name: Process SET file
+        run: |
+          echo Timeframe=${{ matrix.tf }} >> sets/${{ matrix.setfile }}
+          cat sets/${{ matrix.setfile }}
+      - name: Generate config file from the SET file
+        uses: cuchi/jinja2-action@v1.2.0
+        with:
+          template: config/template.j2
+          output_file: config/${{ matrix.pair }}_${{ matrix.tf }}.h
+          data_file: sets/${{ matrix.setfile }}
+          data_format: env
+      - name: Display config file
+        run: cat config/${{ matrix.pair }}_${{ matrix.tf }}.h
+      - name: Upload updated config file
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: ./config/${{ matrix.pair }}_${{ matrix.tf }}.h
+  Push:
+    needs: Optimize
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          # Otherwise, you will failed to push refs to dest repo.
+          fetch-depth: 0
+      - uses: actions/download-artifact@v2
+        with:
+          name: config
+          path: config
+      - uses: actions/download-artifact@v2
+        with:
+          name: results
+          path: .results
+      - name: Parse results
+        run: |
+          cat << EOF >> $GITHUB_ENV
+          RES_DD=$(jq -rs '.[0]|."Drawdown %"' .results/*.json)
+          RES_PF=$(jq -rs '.[0]|."Profit factor"' .results/*.json)
+          RES_TT=$(jq -rs '.[0]|."Total trades"' .results/*.json)
+          EOF
+        shell: bash -ex {0}
+      - name: Check differences
+        id: git-details
+        run: echo "::set-output name=changed::$(git diff | wc -l)"
+      - name: Commit files
+        env:
+          COMMIT_MSG: >-
+            ${{ github.workflow }}
+            (pf=${{ env.RES_PF }}; dd=${{ env.RES_DD }}; tt=${{ env.RES_TT }})
+          GIT_EMAIL: ${{ github.actor }}@users.noreply.github.com
+          GIT_NAME: ${{ github.actor }}
+        run: |
+          echo '*.j2' >> .git/info/exclude
+          echo '.results' >> .git/info/exclude
+          echo "Lines changed: ${{ steps.git-details.outputs.changed }}"
+          git config --local core.autocrlf false
+          git config --local user.email $GIT_EMAIL
+          git config --local user.name $GIT_NAME
+          git add config/*.h && git add --renormalize config/*.h
+          git pull origin ${{ github.ref }} --autostash --rebase -X ours
+          git commit --allow-empty -am "$COMMIT_MSG"
+          NO_PAGER=1 git --no-pager diff HEAD^
+      - name: Push changes
+        env:
+          DD: ${{ env.RES_DD }}
+          PF: ${{ env.RES_PF }}
+          TT: ${{ env.RES_TT }}
+        uses: ad-m/github-push-action@master
+        with:
+          branch: dev-optimize-${{ env.PF }}pf-${{ env.DD }}dd-${{ env.TT }}tt
+          force: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Re-pull on failure
+        if: ${{ failure() }}
+        run: git pull origin ${{ github.ref }} --autostash --rebase -X ours
+      - name: Re-push on failure
+        if: ${{ failure() }}
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
+          force: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}

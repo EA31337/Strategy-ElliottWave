@@ -1,0 +1,7 @@
+; Optimize strategy indicator's EWO params.
+ElliottWave_Indi_EWO_MA_Method2,1=0
+ElliottWave_Indi_EWO_MA_Method2,2=1
+ElliottWave_Indi_EWO_MA_Method2,3=3
+ElliottWave_Indi_EWO_MA_Method2,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1
