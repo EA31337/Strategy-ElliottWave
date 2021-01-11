@@ -37,9 +37,9 @@ INPUT int ElliottWave_Indi_EWO_Shift = 0;                                     //
 struct Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
   Indi_ElliottWave_Params_Defaults()
       : Indi_ElliottWave_Params(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
-                                            ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
-                                            ::ElliottWave_Indi_EWO_Applied_Price1,
-                                            ::ElliottWave_Indi_EWO_Applied_Price2, ::ElliottWave_Indi_EWO_Shift) {}
+                                ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
+                                ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
+                                ::ElliottWave_Indi_EWO_Shift) {}
 } indi_ewo_defaults;
 
 // Defines struct with default user strategy values.
