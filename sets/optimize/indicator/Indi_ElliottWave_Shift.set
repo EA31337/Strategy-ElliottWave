@@ -1,0 +1,7 @@
+; Optimize indicator's shift param.
+ElliottWave_Indi_ElliottWave_Shift,1=0
+ElliottWave_Indi_ElliottWave_Shift,2=1
+ElliottWave_Indi_ElliottWave_Shift,3=4
+ElliottWave_Indi_ElliottWave_Shift,F=1
+ElliottWave_SignalOpenFilterMethod=1
+ElliottWave_TickFilterMethod=1
