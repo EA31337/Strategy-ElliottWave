@@ -81,7 +81,6 @@ jobs:
         tf: [M1, M5, M15, M30]
       max-parallel: 4
     steps:
-      - run: echo ${{ matrix.setfile }}
       - uses: actions/download-artifact@v2
         with:
           path: .
