@@ -104,40 +104,35 @@ class Stg_ElliottWave : public Strategy {
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
-    Indicator *_indi = Data();
-    bool _is_valid = _indi[CURR].IsValid();
+    Indi_ElliottWave *_indi = Data();
+    bool _is_valid = _indi[_shift].IsValid() && _indi[_shift + 2].IsValid() && _indi[_shift + 3].IsValid();
     bool _result = _is_valid;
-    if (!_result) {
-      // Returns false when indicator data is not valid.
-      return false;
+    if (_is_valid) {
+      switch (_cmd) {
+        case ORDER_TYPE_BUY:
+          /* @todo
+          if ((fasterEMA[0][tframe] > slowerEMA[0][tframe]) && (fasterEMA[1][tframe] < slowerEMA[1][tframe]) &&
+              (fasterEMA[2][tframe] > slowerEMA[2][tframe])
+          */
+          _result &= _indi.IsIncreasing(3);
+          _result &= _indi.IsIncByPct(_level, 0, 0, 3);
+          if (_method != 0) {
+            // if (METHOD(_method, 0)) _result &= ...;
+          }
+          break;
+        case ORDER_TYPE_SELL:
+          /* @todo
+          if ((fasterEMA[0][tframe] < slowerEMA[0][tframe]) && (fasterEMA[1][tframe] > slowerEMA[1][tframe]) &&
+              (fasterEMA[2][tframe] < slowerEMA[2][tframe])
+          */
+          _result &= _indi.IsDecreasing(3);
+          _result &= _indi.IsDecByPct(-_level, 0, 0, 3);
+          if (_method != 0) {
+            // if (METHOD(_method, 0)) _result &= ...;
+          }
+          break;
+      }
     }
-    double pip_level = _level * Chart().GetPipSize();
-    switch (_cmd) {
-      case ORDER_TYPE_BUY:
-        _result = _indi[CURR][0] < _indi[CURR][1] + pip_level;
-        if (_method != 0) {
-          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) < _indi[CURR][TMA_TRUE_LOWER];
-        }
-        break;
-      case ORDER_TYPE_SELL:
-        _result = _indi[CURR][1] > _indi[CURR][0] + pip_level;
-        if (_method != 0) {
-          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) > _indi[CURR][TMA_TRUE_UPPER];
-        }
-        break;
-    }
-    /*
-    // @todo
-
-    if ((fasterEMA[0][tframe] > slowerEMA[0][tframe]) && (fasterEMA[1][tframe] < slowerEMA[1][tframe]) &&
-        (fasterEMA[2][tframe] > slowerEMA[2][tframe]) && (_cmd == OP_BUY)) {
-      return True;
-    } else if ((fasterEMA[0][tframe] < slowerEMA[0][tframe]) && (fasterEMA[1][tframe] > slowerEMA[1][tframe]) &&
-               (fasterEMA[2][tframe] < slowerEMA[2][tframe]) && (_cmd == OP_SELL)) {
-      return True;
-    }
-    */
-
     return _result;
   }
 
