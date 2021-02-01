@@ -82,12 +82,12 @@ class Stg_ElliottWave : public Strategy {
     // Initialize strategy initial values.
     Indi_ElliottWave_Params _indi_params(indi_ewo_defaults, _tf);
     StgParams _stg_params(stg_ewo_defaults);
-    if (!Terminal::IsOptimization()) {
-      SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
-                                             indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
-      SetParamsByTf<StgParams>(_stg_params, _tf, stg_ewo_m1, stg_ewo_m5, stg_ewo_m15, stg_ewo_m30, stg_ewo_h1,
-                               stg_ewo_h4, stg_ewo_h8);
-    }
+#ifdef __config__
+    SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
+                                           indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
+    SetParamsByTf<StgParams>(_stg_params, _tf, stg_ewo_m1, stg_ewo_m5, stg_ewo_m15, stg_ewo_m30, stg_ewo_h1, stg_ewo_h4,
+                             stg_ewo_h8);
+#endif
     // Initialize indicator.
     Indi_ElliottWave_Params _ewo_params(_indi_params, _tf);
     _stg_params.SetIndicator(new Indi_ElliottWave(_ewo_params));

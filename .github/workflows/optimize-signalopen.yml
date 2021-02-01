@@ -20,6 +20,8 @@ jobs:
           path: Include/EA31337-classes
           ref: dev
           repository: EA31337/EA31337-classes
+      - name: Enables optimization mode
+        run: echo '#define __input__' > config/define.h
       - name: Compile for MQL4
         uses: fx31337/mql-compile-action@master
         with:
