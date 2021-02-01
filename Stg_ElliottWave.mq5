@@ -3,6 +3,9 @@
  * Implements ElliottWave strategy.
  */
 
+// Includes conditional compilation directives.
+#include "config/define.h"
+
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
 #include <EA31337-classes/Indicator.mqh>
