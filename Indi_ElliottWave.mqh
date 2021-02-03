@@ -28,7 +28,7 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   ENUM_MA_METHOD ewo_mm1, ewo_mm2;
   int ewo_period1, ewo_period2;
   // Struct constructors.
-  void Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1, ENUM_MA_METHOD _ewo_mm2,
+  Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1, ENUM_MA_METHOD _ewo_mm2,
                                ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2, int _shift)
       : ewo_period1(_ewo_period1),
         ewo_period2(_ewo_period2),
@@ -42,9 +42,9 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
     SetDataSourceType(IDATA_ICUSTOM);
     SetDataValueType(TYPE_DOUBLE);
   };
-  void Indi_ElliottWave_Params(Indi_ElliottWave_Params &_params, ENUM_TIMEFRAMES _tf) {
+  Indi_ElliottWave_Params(Indi_ElliottWave_Params &_params, ENUM_TIMEFRAMES _tf) {
     this = _params;
-    _params.tf = _tf;
+    tf = _tf;
   }
   // Getters.
   int GetAppliedPrice1() { return ewo_ap1; }
@@ -99,7 +99,7 @@ class Indi_ElliottWave : public Indicator {
     switch (params.idstype) {
       case IDATA_ICUSTOM:
         _value = iCustom(istate.handle, GetSymbol(), params.GetTf(), params.custom_indi_name, params.GetPeriod1(),
-                         params.GetPeriod2(), params.GetMAMethod1(), params.GetMAMethod1(), params.GetAppliedPrice1(),
+                         params.GetPeriod2(), params.GetMAMethod1(), params.GetMAMethod2(), params.GetAppliedPrice1(),
                          params.GetAppliedPrice2(), params.GetShift(), _mode, _shift);
         break;
       default:
