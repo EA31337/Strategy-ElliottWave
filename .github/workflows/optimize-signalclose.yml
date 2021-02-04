@@ -8,7 +8,7 @@ on:
       - 'optimize-signalclose'
 
 jobs:
-  Compile:
+  Compile-EA:
     defaults:
       run:
         shell: powershell
@@ -22,7 +22,7 @@ jobs:
           repository: EA31337/EA31337-classes
       - name: Enables optimization mode
         run: echo '#define __input__' > config/define.h
-      - name: Compile for MQL4
+      - name: Compile strategy for MQL4
         uses: fx31337/mql-compile-action@master
         with:
           include: .
@@ -30,7 +30,7 @@ jobs:
           mt-version: 5.0.0.2361
           path: Stg_ElliottWave.mq4
           verbose: true
-      - name: Compile for MQL5
+      - name: Compile strategy for MQL5
         uses: fx31337/mql-compile-action@master
         with:
           include: .
@@ -40,11 +40,47 @@ jobs:
       - name: List compiled files
         run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
       - run: Get-Location
-      - name: Upload EA
+      - name: Upload strategy artifacts
         uses: actions/upload-artifact@v2
         with:
           name: EA
           path: '*.ex?'
+  Compile-Indicators:
+    defaults:
+      run:
+        shell: powershell
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          path: Include/EA31337-classes
+          ref: dev
+          repository: EA31337/EA31337-classes
+      - name: Compile required indicator for MQL4
+        uses: fx31337/mql-compile-action@master
+        with:
+          include: .
+          init-platform: true
+          mt-version: 5.0.0.2361
+          path: Indicators/Elliott_Wave_Oscillator2.mq4
+          verbose: true
+      - name: Compile required indicator for MQL5
+        uses: fx31337/mql-compile-action@master
+        with:
+          include: .
+          init-platform: true
+          mt-version: 5.0.0.2515
+          path: Indicators/Elliott_Wave_Oscillator2.mq5
+          verbose: true
+      - name: List compiled files
+        run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
+      - run: Get-Location
+      - name: Upload indicator artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Indicators
+          path: 'Indicators/*.ex?'
   Process:
     env:
       SETS_DIR: sets/optimize/signalclose
@@ -74,7 +110,7 @@ jobs:
           name: sets
           path: ${{ env.SETS_DIR }}
   Optimize:
-    needs: [Compile, Process]
+    needs: [Compile-EA, Compile-Indicators, Process]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -115,6 +151,9 @@ jobs:
         run: cat sets/${{ matrix.setfile }}
       - uses: ea31337/mql-tester-action@master
         with:
+          RunOnStart: >-
+            ln -fsv /github/workspace/Indicators
+            "$TERMINAL_DIR/$MQL_DIR/Indicators"
           BtDeposit: 100000
           BtDest: ${{ github.workspace }}/_results
           BtMonths: 11-12
