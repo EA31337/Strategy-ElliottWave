@@ -47,7 +47,10 @@ int deinit() { return (0); }
 int start() {
   int counted_bars = IndicatorCounted();
   double MA1, MA2;
-  for (int i = Bars; i >= 0; i--) {
+
+  int limit = MathMin(Bars - IndicatorCounted(), Bars - MathMax(EWO_Period1, EWO_Period2));
+
+  for (int i = limit - 1; i >= 0; i--) {
     MA1 = iMA(_Symbol, 0, EWO_Period1, EWO_Shift, EWO_MA_Method1, EWO_Applied_Price1, i);
     MA2 = iMA(_Symbol, 0, EWO_Period2, EWO_Shift, EWO_MA_Method2, EWO_Applied_Price2, i);
 
