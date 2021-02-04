@@ -45,16 +45,16 @@ int deinit() { return (0); }
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
 int start() {
-  int counted_bars = IndicatorCounted();
   double MA1, MA2;
-  for (int i = Bars; i >= 0; i--) {
+
+  int limit = Bars - IndicatorCounted();
+
+  for (int i = limit - 1; i >= 0; i--) {
     MA1 = iMA(_Symbol, 0, EWO_Period1, EWO_Shift, EWO_MA_Method1, EWO_Applied_Price1, i);
     MA2 = iMA(_Symbol, 0, EWO_Period2, EWO_Shift, EWO_MA_Method2, EWO_Applied_Price2, i);
 
-    if (Buffer2[i] > 0) {
-      Buffer1[i] = MA1 - MA2;
-      Buffer2[i] = 0;
-    }
+    Buffer1[i] = MA1 - MA2;
+    Buffer2[i] = 0;
     if (Buffer1[i] < 0) {
       Buffer2[i] = MA1 - MA2;
       Buffer1[i] = 0;
