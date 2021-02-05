@@ -29,7 +29,7 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   int ewo_period1, ewo_period2;
   // Struct constructors.
   Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1, ENUM_MA_METHOD _ewo_mm2,
-                               ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2, int _shift)
+                          ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2, int _shift)
       : ewo_period1(_ewo_period1),
         ewo_period2(_ewo_period2),
         ewo_mm1(_ewo_mm1),
@@ -125,7 +125,7 @@ class Indi_ElliottWave : public Indicator {
       for (int _mode = 0; _mode < (int)params.max_modes; _mode++) {
         _entry.values[_mode] = GetValue(_mode, _shift);
       }
-      _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, _entry.GetMin<double>() >= 0);
+      _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, !_entry.HasValue<double>(EMPTY_VALUE));
       if (_entry.IsValid()) {
         idata.Add(_entry, _bar_time);
       }

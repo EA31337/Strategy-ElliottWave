@@ -25,8 +25,8 @@ int OnCalculate(const int rates_total, const int prev_calculated, const int begi
     ArraySetAsSeries(Buffer1, true);
     ArraySetAsSeries(Buffer2, true);
   }
-  //if (begin > 0) PlotIndexSetInteger(0, PLOT_DRAW_BEGIN, begin);
-  //if (begin > 0) PlotIndexSetInteger(1, PLOT_DRAW_BEGIN, begin);
+  // if (begin > 0) PlotIndexSetInteger(0, PLOT_DRAW_BEGIN, begin);
+  // if (begin > 0) PlotIndexSetInteger(1, PLOT_DRAW_BEGIN, begin);
   int pos = fmax(0, prev_calculated - 1);
   IndicatorCounted(prev_calculated);
   start();
