@@ -140,9 +140,20 @@ class Stg_ElliottWave : public Strategy {
     double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
     double _result = _default_value;
     switch (_method) {
-      case 1:
-        //_result = (_direction > 0 ? _indi[CURR][0] : _indi[CURR][1]) + _trail * _direction;
+      case 1: {
+        int _bar_count1 = 10; // @removeme
+        // int _bar_count1 = (int)_level * (int)_indi.GetParams().GetPeriod1();
+        _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count1))
+                                 : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count1));
         break;
+      }
+      case 2: {
+        int _bar_count2 = 20; // @removeme
+        // int _bar_count2 = (int)_level * (int)_indi.GetParams().GetPeriod2();
+        _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count2))
+                                 : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count2));
+        break;
+      }
     }
     return (float)_result;
   }
