@@ -9,15 +9,17 @@ on:
       - 'dev*'
     paths-ignore:
       - '*.md'
+      - '.git*'
   push:
     branches:
       - 'master'
       - 'dev*'
     paths-ignore:
       - '*.md'
+      - '.git*'
 
 jobs:
-  Compile:
+  Compile-EA:
     defaults:
       run:
         shell: powershell
@@ -29,6 +31,8 @@ jobs:
           path: Include/EA31337-classes
           ref: dev
           repository: EA31337/EA31337-classes
+      - name: Enables optimization mode
+        run: echo '#define __input__' > config/define.h
       - name: Compile strategy for MQL4
         uses: fx31337/mql-compile-action@master
         with:
@@ -37,6 +41,33 @@ jobs:
           mt-version: 5.0.0.2361
           path: Stg_ElliottWave.mq4
           verbose: true
+      - name: Compile strategy for MQL5
+        uses: fx31337/mql-compile-action@master
+        with:
+          include: .
+          mt-version: 5.0.0.2515
+          path: Stg_ElliottWave.mq5
+          verbose: true
+      - name: List compiled files
+        run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
+      - run: Get-Location
+      - name: Upload strategy artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: EA
+          path: '*.ex?'
+  Compile-Indicators:
+    defaults:
+      run:
+        shell: powershell
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          path: Include/EA31337-classes
+          ref: dev
+          repository: EA31337/EA31337-classes
       - name: Compile required indicator for MQL4
         uses: fx31337/mql-compile-action@master
         with:
@@ -44,15 +75,6 @@ jobs:
           init-platform: true
           mt-version: 5.0.0.2361
           path: Indicators/Elliott_Wave_Oscillator2.mq4
-          verbose: true
-      - name: Copy Math includes
-        run: Copy-Item -Recurse ../MetaTrader/MQL5/Include/Math Include/
-      - name: Compile for MQL5
-        uses: fx31337/mql-compile-action@master
-        with:
-          include: .
-          mt-version: 5.0.0.2515
-          path: Stg_ElliottWave.mq5
           verbose: true
       - name: Compile required indicator for MQL5
         uses: fx31337/mql-compile-action@master
@@ -65,18 +87,13 @@ jobs:
       - name: List compiled files
         run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
       - run: Get-Location
-      - name: Upload strategy artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: EA
-          path: '*.ex?'
       - name: Upload indicator artifacts
         uses: actions/upload-artifact@v2
         with:
           name: Indicators
           path: 'Indicators/*.ex?'
   Test:
-    needs: Compile
+    needs: [Compile-EA, Compile-Indicators]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -85,11 +102,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
-          name: EA
-      - uses: actions/download-artifact@v2
-        with:
-          name: Indicators
-          path: Indicators
+          path: .
       - name: Run strategy
         uses: ea31337/mql-tester-action@master
         with:

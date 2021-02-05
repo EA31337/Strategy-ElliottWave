@@ -110,10 +110,7 @@ class Stg_ElliottWave : public Strategy {
     if (_is_valid) {
       switch (_cmd) {
         case ORDER_TYPE_BUY:
-          /* @todo
-          if ((fasterEMA[0][tframe] > slowerEMA[0][tframe]) && (fasterEMA[1][tframe] < slowerEMA[1][tframe]) &&
-              (fasterEMA[2][tframe] > slowerEMA[2][tframe])
-          */
+          _result &= _indi[_shift][1] < 0;
           _result &= _indi.IsIncreasing(3);
           _result &= _indi.IsIncByPct(_level, 0, 0, 3);
           if (_method != 0) {
@@ -121,10 +118,7 @@ class Stg_ElliottWave : public Strategy {
           }
           break;
         case ORDER_TYPE_SELL:
-          /* @todo
-          if ((fasterEMA[0][tframe] < slowerEMA[0][tframe]) && (fasterEMA[1][tframe] > slowerEMA[1][tframe]) &&
-              (fasterEMA[2][tframe] < slowerEMA[2][tframe])
-          */
+          _result &= _indi[_shift][0] > 0;
           _result &= _indi.IsDecreasing(3);
           _result &= _indi.IsDecByPct(-_level, 0, 0, 3);
           if (_method != 0) {
