@@ -6,6 +6,9 @@
  * - https://en.wikipedia.org/wiki/Elliott_wave_principle
  */
 
+// Includes indicator class.
+#include "Indi_ElliottWave.mqh"
+
 // User inputs.
 INPUT string __ElliotWave_Parameters__ = "-- ElliotWave strategy params --";  // >>> ELLIOT WAVE <<<
 INPUT float ElliottWave_LotSize = 0;                                          // Lot size
