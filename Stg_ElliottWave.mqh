@@ -6,20 +6,24 @@
  * - https://en.wikipedia.org/wiki/Elliott_wave_principle
  */
 
+// Includes indicator class.
+#include "Indi_ElliottWave.mqh"
+
 // User inputs.
-INPUT float ElliottWave_LotSize = 0;               // Lot size
-INPUT int ElliottWave_SignalOpenMethod = 0;        // Signal open method (0-1)
-INPUT float ElliottWave_SignalOpenLevel = 0.0f;    // Signal open level (>0.0001)
-INPUT int ElliottWave_SignalOpenFilterMethod = 1;  // Signal open filter method
-INPUT int ElliottWave_SignalOpenBoostMethod = 0;   // Signal open boost method
-INPUT int ElliottWave_SignalCloseMethod = 0;       // Signal close method
-INPUT float ElliottWave_SignalCloseLevel = 0.0f;   // Signal close level (>0.0001)
-INPUT int ElliottWave_PriceStopMethod = 0;         // Price stop method
-INPUT float ElliottWave_PriceStopLevel = 0;        // Price stop level
-INPUT int ElliottWave_TickFilterMethod = 1;        // Tick filter method
-INPUT float ElliottWave_MaxSpread = 4.0;           // Max spread to trade (pips)
-INPUT int ElliottWave_Shift = 0;                   // Shift (relative to the current bar, 0 - default)
-INPUT int ElliottWave_OrderCloseTime = -20;        // Order close time in mins (>0) or bars (<0)
+INPUT string __ElliotWave_Parameters__ = "-- ElliotWave strategy params --";  // >>> ELLIOT WAVE <<<
+INPUT float ElliottWave_LotSize = 0;                                          // Lot size
+INPUT int ElliottWave_SignalOpenMethod = 0;                                   // Signal open method (0-1)
+INPUT float ElliottWave_SignalOpenLevel = 0.0f;                               // Signal open level (>0.0001)
+INPUT int ElliottWave_SignalOpenFilterMethod = 1;                             // Signal open filter method
+INPUT int ElliottWave_SignalOpenBoostMethod = 0;                              // Signal open boost method
+INPUT int ElliottWave_SignalCloseMethod = 0;                                  // Signal close method
+INPUT float ElliottWave_SignalCloseLevel = 0.0f;                              // Signal close level (>0.0001)
+INPUT int ElliottWave_PriceStopMethod = 0;                                    // Price stop method
+INPUT float ElliottWave_PriceStopLevel = 0;                                   // Price stop level
+INPUT int ElliottWave_TickFilterMethod = 1;                                   // Tick filter method
+INPUT float ElliottWave_MaxSpread = 4.0;                                      // Max spread to trade (pips)
+INPUT int ElliottWave_Shift = 0;             // Shift (relative to the current bar, 0 - default)
+INPUT int ElliottWave_OrderCloseTime = -20;  // Order close time in mins (>0) or bars (<0)
 INPUT string __ElliottWave_Indi_ElliottWave_Params__ =
     "-- ElliottWave strategy: Elliott Wave oscillator params --";  // >>> ElliottWave startegy: Elliott Wave oscillator
                                                                    // <<<
@@ -81,12 +85,12 @@ class Stg_ElliottWave : public Strategy {
     // Initialize strategy initial values.
     Indi_ElliottWave_Params _indi_params(indi_ewo_defaults, _tf);
     StgParams _stg_params(stg_ewo_defaults);
-    if (!Terminal::IsOptimization()) {
-      SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
-                                             indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
-      SetParamsByTf<StgParams>(_stg_params, _tf, stg_ewo_m1, stg_ewo_m5, stg_ewo_m15, stg_ewo_m30, stg_ewo_h1,
-                               stg_ewo_h4, stg_ewo_h8);
-    }
+#ifdef __config__
+    SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
+                                           indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
+    SetParamsByTf<StgParams>(_stg_params, _tf, stg_ewo_m1, stg_ewo_m5, stg_ewo_m15, stg_ewo_m30, stg_ewo_h1, stg_ewo_h4,
+                             stg_ewo_h8);
+#endif
     // Initialize indicator.
     Indi_ElliottWave_Params _ewo_params(_indi_params, _tf);
     _stg_params.SetIndicator(new Indi_ElliottWave(_ewo_params));
@@ -96,7 +100,6 @@ class Stg_ElliottWave : public Strategy {
     _stg_params.SetTf(_tf, _Symbol);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_ElliottWave(_stg_params, "Elliott Wave");
-    _stg_params.SetStops(_strat, _strat);
     return _strat;
   }
 
@@ -104,40 +107,29 @@ class Stg_ElliottWave : public Strategy {
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
-    Indicator *_indi = Data();
-    bool _is_valid = _indi[CURR].IsValid();
+    Indi_ElliottWave *_indi = Data();
+    bool _is_valid = _indi[_shift].IsValid() && _indi[_shift + 2].IsValid() && _indi[_shift + 3].IsValid();
     bool _result = _is_valid;
-    if (!_result) {
-      // Returns false when indicator data is not valid.
-      return false;
+    if (_is_valid) {
+      switch (_cmd) {
+        case ORDER_TYPE_BUY:
+          _result &= _indi[_shift][1] < 0;
+          _result &= _indi.IsIncreasing(3);
+          _result &= _indi.IsIncByPct(_level, 0, 0, 3);
+          if (_method != 0) {
+            // if (METHOD(_method, 0)) _result &= ...;
+          }
+          break;
+        case ORDER_TYPE_SELL:
+          _result &= _indi[_shift][0] > 0;
+          _result &= _indi.IsDecreasing(3);
+          _result &= _indi.IsDecByPct(-_level, 0, 0, 3);
+          if (_method != 0) {
+            // if (METHOD(_method, 0)) _result &= ...;
+          }
+          break;
+      }
     }
-    double pip_level = _level * Chart().GetPipSize();
-    switch (_cmd) {
-      case ORDER_TYPE_BUY:
-        _result = _indi[CURR][0] < _indi[CURR][1] + pip_level;
-        if (_method != 0) {
-          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) < _indi[CURR][TMA_TRUE_LOWER];
-        }
-        break;
-      case ORDER_TYPE_SELL:
-        _result = _indi[CURR][1] > _indi[CURR][0] + pip_level;
-        if (_method != 0) {
-          // if (METHOD(_method, 0)) _result &= fmin(Close[PREV], Close[PPREV]) > _indi[CURR][TMA_TRUE_UPPER];
-        }
-        break;
-    }
-    /*
-    // @todo
-
-    if ((fasterEMA[0][tframe] > slowerEMA[0][tframe]) && (fasterEMA[1][tframe] < slowerEMA[1][tframe]) &&
-        (fasterEMA[2][tframe] > slowerEMA[2][tframe]) && (_cmd == OP_BUY)) {
-      return True;
-    } else if ((fasterEMA[0][tframe] < slowerEMA[0][tframe]) && (fasterEMA[1][tframe] > slowerEMA[1][tframe]) &&
-               (fasterEMA[2][tframe] < slowerEMA[2][tframe]) && (_cmd == OP_SELL)) {
-      return True;
-    }
-    */
-
     return _result;
   }
 
@@ -151,9 +143,20 @@ class Stg_ElliottWave : public Strategy {
     double _default_value = Market().GetCloseOffer(_cmd) + _trail * _method * _direction;
     double _result = _default_value;
     switch (_method) {
-      case 1:
-        //_result = (_direction > 0 ? _indi[CURR][0] : _indi[CURR][1]) + _trail * _direction;
+      case 1: {
+        int _bar_count1 = 10; // @removeme
+        // int _bar_count1 = (int)_level * (int)_indi.GetParams().GetPeriod1();
+        _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count1))
+                                 : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count1));
         break;
+      }
+      case 2: {
+        int _bar_count2 = 20; // @removeme
+        // int _bar_count2 = (int)_level * (int)_indi.GetParams().GetPeriod2();
+        _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count2))
+                                 : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count2));
+        break;
+      }
     }
     return (float)_result;
   }
