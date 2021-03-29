@@ -22,7 +22,7 @@ INPUT int ElliottWave_PriceStopMethod = 0;                                    //
 INPUT float ElliottWave_PriceStopLevel = 0;                                   // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 1;                                   // Tick filter method
 INPUT float ElliottWave_MaxSpread = 4.0;                                      // Max spread to trade (pips)
-INPUT int ElliottWave_Shift = 0;             // Shift (relative to the current bar, 0 - default)
+INPUT short ElliottWave_Shift = 0;           // Shift (relative to the current bar, 0 - default)
 INPUT int ElliottWave_OrderCloseTime = -20;  // Order close time in mins (>0) or bars (<0)
 INPUT string __ElliottWave_Indi_ElliottWave_Params__ =
     "-- ElliottWave strategy: Elliott Wave oscillator params --";  // >>> ElliottWave startegy: Elliott Wave oscillator
@@ -144,14 +144,14 @@ class Stg_ElliottWave : public Strategy {
     double _result = _default_value;
     switch (_method) {
       case 1: {
-        int _bar_count1 = 10; // @removeme
+        int _bar_count1 = 10;  // @removeme
         // int _bar_count1 = (int)_level * (int)_indi.GetParams().GetPeriod1();
         _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count1))
                                  : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count1));
         break;
       }
       case 2: {
-        int _bar_count2 = 20; // @removeme
+        int _bar_count2 = 20;  // @removeme
         // int _bar_count2 = (int)_level * (int)_indi.GetParams().GetPeriod2();
         _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count2))
                                  : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count2));
