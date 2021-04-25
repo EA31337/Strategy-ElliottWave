@@ -79,7 +79,7 @@ struct Stg_ElliottWave_Params : StgParams {
 
 class Stg_ElliottWave : public Strategy {
  public:
-  Stg_ElliottWave(StgParams &_params, string _name) : Strategy(_params, _name) {}
+  Stg_ElliottWave(StgParams &_params, Trade *_trade = NULL, string _name = "") : Strategy(_params, _trade, _name) {}
 
   static Stg_ElliottWave *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
@@ -94,12 +94,9 @@ class Stg_ElliottWave : public Strategy {
     // Initialize indicator.
     Indi_ElliottWave_Params _ewo_params(_indi_params, _tf);
     _stg_params.SetIndicator(new Indi_ElliottWave(_ewo_params));
-    // Initialize strategy parameters.
-    _stg_params.GetLog().SetLevel(_log_level);
-    _stg_params.SetMagicNo(_magic_no);
-    _stg_params.SetTf(_tf, _Symbol);
-    // Initialize strategy instance.
-    Strategy *_strat = new Stg_ElliottWave(_stg_params, "Elliott Wave");
+    // Initialize Strategy instance.
+    TradeParams _tparams(_magic_no, _log_level);
+    Strategy *_strat = new Stg_ElliottWave(_stg_params, new Trade(new Chart(_tf, _Symbol)), "Elliott Wave");
     return _strat;
   }
 
