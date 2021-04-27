@@ -98,7 +98,7 @@ jobs:
     strategy:
       matrix:
         month: [1]
-        year: [2018, 2019]
+        year: [2019, 2020]
     steps:
       - uses: actions/download-artifact@v2
         with:
