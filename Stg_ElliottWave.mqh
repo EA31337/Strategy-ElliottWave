@@ -62,7 +62,7 @@ struct Stg_ElliottWave_Params : StgParams {
 
   // Struct constructors.
   Stg_ElliottWave_Params(Indi_ElliottWave_Params &_iparams, StgParams &_sparams)
-      : iparams(indi_ewo_defaults, _iparams.tf), sparams(stg_ewo_defaults) {
+      : iparams(indi_ewo_defaults, _iparams.tf.GetTf()), sparams(stg_ewo_defaults) {
     iparams = _iparams;
     sparams = _sparams;
   }
