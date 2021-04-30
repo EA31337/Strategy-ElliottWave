@@ -17,7 +17,7 @@
 #include <EA31337-classes/Indicators/Indi_MA.mqh>
 
 // Defines macros.
-#define Bars (Chart::iBars(_Symbol, _Period))
+#define Bars (ChartStatic::iBars(_Symbol, _Period))
 
 // Custom indicator iteration function.
 int OnCalculate(const int rates_total, const int prev_calculated, const int begin, const double &price[]) {
