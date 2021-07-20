@@ -2,6 +2,7 @@
 //|                                     Elliott_Wave_Oscillator2.mq4 |
 //+------------------------------------------------------------------+
 #property indicator_buffers 2
+#property indicator_plots 2
 #property indicator_separate_window
 #property indicator_color1 LawnGreen
 #property indicator_color2 Red
@@ -25,6 +26,7 @@ double prev1;
 //+------------------------------------------------------------------+
 int init() {
   //---- indicators
+  IndicatorBuffers(2);
   SetIndexStyle(0, DRAW_HISTOGRAM, STYLE_SOLID, 2);
   SetIndexBuffer(0, Buffer1);
   SetIndexStyle(1, DRAW_HISTOGRAM, STYLE_SOLID, 2);
@@ -44,8 +46,15 @@ int deinit() { return (0); }
 //+------------------------------------------------------------------+
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
+
+#define RESIZE_INDEX_BUFFER(BUFF) \
+  if (ArrayRange(BUFF, 0) != Bars) ArrayResize(BUFF, Bars, Bars - Bars % 4096 + 4096);
+
 int start() {
   double MA1, MA2;
+
+  RESIZE_INDEX_BUFFER(Buffer1);
+  RESIZE_INDEX_BUFFER(Buffer2);
 
   int limit = Bars - IndicatorCounted();
 
