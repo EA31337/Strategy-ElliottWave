@@ -107,24 +107,25 @@ class Stg_ElliottWave : public Strategy {
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
     Indi_ElliottWave *_indi = GetIndicator();
-    bool _is_valid = _indi[_shift].IsValid() && _indi[_shift + 2].IsValid() && _indi[_shift + 3].IsValid();
-    bool _result = _is_valid;
-    if (_is_valid) {
-      IndicatorSignal _signals = _indi.GetSignals(4, _shift);
-      switch (_cmd) {
-        case ORDER_TYPE_BUY:
-          //_result &= _indi[_shift][1] < 0;
-          _result &= _indi.IsIncreasing(3);
-          _result &= _indi.IsIncByPct(_level, 0, 0, 3);
-          _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
-          break;
-        case ORDER_TYPE_SELL:
-          //_result &= _indi[_shift][0] > 0;
-          _result &= _indi.IsDecreasing(3);
-          _result &= _indi.IsDecByPct(-_level, 0, 0, 3);
-          _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
-          break;
-      }
+    bool _result = _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID);
+    if (!_result) {
+      // Returns false when indicator data is not valid.
+      return false;
+    }
+    IndicatorSignal _signals = _indi.GetSignals(4, _shift);
+    switch (_cmd) {
+      case ORDER_TYPE_BUY:
+        //_result &= _indi[_shift][1] < 0;
+        _result &= _indi.IsIncreasing(3);
+        _result &= _indi.IsIncByPct(_level, 0, 0, 3);
+        _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
+        break;
+      case ORDER_TYPE_SELL:
+        //_result &= _indi[_shift][0] > 0;
+        _result &= _indi.IsDecreasing(3);
+        _result &= _indi.IsDecByPct(-_level, 0, 0, 3);
+        _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
+        break;
     }
     return _result;
   }
