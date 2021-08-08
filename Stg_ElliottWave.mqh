@@ -24,6 +24,8 @@ INPUT float ElliottWave_PriceStopLevel = 0;         // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 1;         // Tick filter method
 INPUT float ElliottWave_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short ElliottWave_Shift = 0;                  // Shift (relative to the current bar, 0 - default)
+INPUT float ElliottWave_OrderCloseLoss = 0;         // Order close loss
+INPUT float ElliottWave_OrderCloseProfit = 0;       // Order close profit
 INPUT int ElliottWave_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("ElliottWave strategy: Elliott Wave oscillator params");
 INPUT int ElliottWave_Indi_EWO_Period1 = 5;                                   // EWO Period 1
@@ -51,8 +53,11 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
       : StgParams(::ElliottWave_SignalOpenMethod, ::ElliottWave_SignalOpenFilterMethod, ::ElliottWave_SignalOpenLevel,
                   ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseFilter,
                   ::ElliottWave_SignalCloseLevel, ::ElliottWave_PriceStopMethod, ::ElliottWave_PriceStopLevel,
-                  ::ElliottWave_TickFilterMethod, ::ElliottWave_MaxSpread, ::ElliottWave_Shift,
-                  ::ElliottWave_OrderCloseTime) {}
+                  ::ElliottWave_TickFilterMethod, ::ElliottWave_MaxSpread, ::ElliottWave_Shift) {
+    Set(STRAT_PARAM_OCL, ElliottWave_OrderCloseLoss);
+    Set(STRAT_PARAM_OCP, ElliottWave_OrderCloseProfit);
+    Set(STRAT_PARAM_OCT, ElliottWave_OrderCloseTime);
+  }
 } stg_ewo_defaults;
 
 // Struct to define strategy parameters to override.
