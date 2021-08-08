@@ -10,27 +10,25 @@
 #include "Indi_ElliottWave.mqh"
 
 // User inputs.
-INPUT string __ElliotWave_Parameters__ = "-- ElliotWave strategy params --";  // >>> ELLIOT WAVE <<<
-INPUT float ElliottWave_LotSize = 0;                                          // Lot size
-INPUT int ElliottWave_SignalOpenMethod = 2;                                   // Signal open method (-127-127)
-INPUT float ElliottWave_SignalOpenLevel = 0.0f;                               // Signal open level (>0.0001)
-INPUT int ElliottWave_SignalOpenFilterMethod = 32;                            // Signal open filter method
-INPUT int ElliottWave_SignalOpenBoostMethod = 0;                              // Signal open boost method
-INPUT int ElliottWave_SignalCloseMethod = 2;                                  // Signal close method
-INPUT float ElliottWave_SignalCloseLevel = 0.0f;                              // Signal close level (>0.0001)
-INPUT int ElliottWave_PriceStopMethod = 1;                                    // Price stop method
-INPUT float ElliottWave_PriceStopLevel = 0;                                   // Price stop level
-INPUT int ElliottWave_TickFilterMethod = 1;                                   // Tick filter method
-INPUT float ElliottWave_MaxSpread = 4.0;                                      // Max spread to trade (pips)
-INPUT short ElliottWave_Shift = 0;           // Shift (relative to the current bar, 0 - default)
-INPUT int ElliottWave_OrderCloseTime = -20;  // Order close time in mins (>0) or bars (<0)
-INPUT string __ElliottWave_Indi_ElliottWave_Params__ =
-    "-- ElliottWave strategy: Elliott Wave oscillator params --";  // >>> ElliottWave startegy: Elliott Wave oscillator
-                                                                   // <<<
-INPUT int ElliottWave_Indi_EWO_Period1 = 5;                        // EWO Period 1
-INPUT int ElliottWave_Indi_EWO_Period2 = 35;                       // EWO Period 2
-INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method1 = MODE_SMA;   // EWO MA Method 1
-INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method2 = MODE_SMA;   // EWO MA Method 2
+INPUT_GROUP("ElliotWave strategy: strategy params");
+INPUT float ElliottWave_LotSize = 0;                // Lot size
+INPUT int ElliottWave_SignalOpenMethod = 2;         // Signal open method (-127-127)
+INPUT float ElliottWave_SignalOpenLevel = 0.0f;     // Signal open level (>0.0001)
+INPUT int ElliottWave_SignalOpenFilterMethod = 32;  // Signal open filter method
+INPUT int ElliottWave_SignalOpenBoostMethod = 0;    // Signal open boost method
+INPUT int ElliottWave_SignalCloseMethod = 2;        // Signal close method
+INPUT float ElliottWave_SignalCloseLevel = 0.0f;    // Signal close level (>0.0001)
+INPUT int ElliottWave_PriceStopMethod = 1;          // Price stop method
+INPUT float ElliottWave_PriceStopLevel = 0;         // Price stop level
+INPUT int ElliottWave_TickFilterMethod = 1;         // Tick filter method
+INPUT float ElliottWave_MaxSpread = 4.0;            // Max spread to trade (pips)
+INPUT short ElliottWave_Shift = 0;                  // Shift (relative to the current bar, 0 - default)
+INPUT int ElliottWave_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
+INPUT_GROUP("ElliottWave strategy: Elliott Wave oscillator params");
+INPUT int ElliottWave_Indi_EWO_Period1 = 5;                                   // EWO Period 1
+INPUT int ElliottWave_Indi_EWO_Period2 = 35;                                  // EWO Period 2
+INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method1 = MODE_SMA;              // EWO MA Method 1
+INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method2 = MODE_SMA;              // EWO MA Method 2
 INPUT ENUM_APPLIED_PRICE ElliottWave_Indi_EWO_Applied_Price1 = PRICE_MEDIAN;  // EWO Applied Price 1
 INPUT ENUM_APPLIED_PRICE ElliottWave_Indi_EWO_Applied_Price2 = PRICE_MEDIAN;  // EWO Applied Price 2
 INPUT int ElliottWave_Indi_EWO_Shift = 0;                                     // EWO Shift
