@@ -17,6 +17,7 @@ INPUT float ElliottWave_SignalOpenLevel = 0.0f;     // Signal open level (>0.000
 INPUT int ElliottWave_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int ElliottWave_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int ElliottWave_SignalCloseMethod = 2;        // Signal close method
+INPUT int ElliottWave_SignalCloseFilter = 0;        // Signal close filter (-127-127)
 INPUT float ElliottWave_SignalCloseLevel = 0.0f;    // Signal close level (>0.0001)
 INPUT int ElliottWave_PriceStopMethod = 1;          // Price stop method
 INPUT float ElliottWave_PriceStopLevel = 0;         // Price stop level
@@ -48,9 +49,10 @@ struct Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
 struct Stg_ElliottWave_Params_Defaults : StgParams {
   Stg_ElliottWave_Params_Defaults()
       : StgParams(::ElliottWave_SignalOpenMethod, ::ElliottWave_SignalOpenFilterMethod, ::ElliottWave_SignalOpenLevel,
-                  ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseLevel,
-                  ::ElliottWave_PriceStopMethod, ::ElliottWave_PriceStopLevel, ::ElliottWave_TickFilterMethod,
-                  ::ElliottWave_MaxSpread, ::ElliottWave_Shift, ::ElliottWave_OrderCloseTime) {}
+                  ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseFilter,
+                  ::ElliottWave_SignalCloseLevel, ::ElliottWave_PriceStopMethod, ::ElliottWave_PriceStopLevel,
+                  ::ElliottWave_TickFilterMethod, ::ElliottWave_MaxSpread, ::ElliottWave_Shift,
+                  ::ElliottWave_OrderCloseTime) {}
 } stg_ewo_defaults;
 
 // Struct to define strategy parameters to override.
