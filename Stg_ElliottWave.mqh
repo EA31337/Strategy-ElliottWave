@@ -15,6 +15,7 @@ INPUT float ElliottWave_LotSize = 0;                // Lot size
 INPUT int ElliottWave_SignalOpenMethod = 2;         // Signal open method (-127-127)
 INPUT float ElliottWave_SignalOpenLevel = 0.0f;     // Signal open level (>0.0001)
 INPUT int ElliottWave_SignalOpenFilterMethod = 32;  // Signal open filter method
+INPUT int ElliottWave_SignalOpenFilterTime = 6;     // Signal open filter time
 INPUT int ElliottWave_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int ElliottWave_SignalCloseMethod = 2;        // Signal close method
 INPUT int ElliottWave_SignalCloseFilter = 0;        // Signal close filter (-127-127)
@@ -57,6 +58,7 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
     Set(STRAT_PARAM_OCL, ElliottWave_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, ElliottWave_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, ElliottWave_OrderCloseTime);
+    Set(STRAT_PARAM_SOFT, ElliottWave_SignalOpenFilterTime);
   }
 } stg_ewo_defaults;
 
