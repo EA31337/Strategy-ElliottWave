@@ -22,7 +22,7 @@ struct Stg_ElliottWave_Params_{{ Timeframe }} : StgParams {
   Stg_ElliottWave_Params_{{ Timeframe }}() : StgParams(stg_ewo_defaults) {
     lot_size = {{ ElliottWave_LotSize | default(0) }};
     signal_open_method = {{ ElliottWave_SignalOpenMethod | default(0) }};
-    signal_open_filter = {{ ElliottWave_SignalOpenFilterMethod | default(1) }};
+    signal_open_filter_method = {{ ElliottWave_SignalOpenFilterMethod | default(1) }};
     signal_open_level = (float){{ ElliottWave_SignalOpenLevel | default(0) }};
     signal_open_boost = {{ ElliottWave_SignalOpenBoostMethod | default(0) }};
     signal_close_method = {{ ElliottWave_SignalCloseMethod | default(0) }};
