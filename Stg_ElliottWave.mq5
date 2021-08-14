@@ -43,8 +43,6 @@ input bool Info_On_Chart = true;          // Display info on chart.
 //#resource "Indicators/Elliott_Wave_Oscillator-Arrows.ex5"
 //#resource "Indicators/Elliott_Wave_Oscillator1-Trend.ex5"
 //#resource "Indicators/Elliott_Wave_Oscillator1.ex5"
-#import "::Indicators/Elliott_Wave_Oscillator2.ex5"
-#import
 #resource "Indicators/Elliott_Wave_Oscillator2.ex5"
 #endif
 #endif

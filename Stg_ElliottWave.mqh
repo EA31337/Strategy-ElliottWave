@@ -12,22 +12,22 @@
 // User inputs.
 INPUT_GROUP("ElliotWave strategy: strategy params");
 INPUT float ElliottWave_LotSize = 0;                // Lot size
-INPUT int ElliottWave_SignalOpenMethod = 2;         // Signal open method (-127-127)
+INPUT int ElliottWave_SignalOpenMethod = 0;         // Signal open method (-127-127)
 INPUT float ElliottWave_SignalOpenLevel = 0.0f;     // Signal open level (>0.0001)
 INPUT int ElliottWave_SignalOpenFilterMethod = 32;  // Signal open filter method
-INPUT int ElliottWave_SignalOpenFilterTime = 6;     // Signal open filter time
+INPUT int ElliottWave_SignalOpenFilterTime = 8;     // Signal open filter time
 INPUT int ElliottWave_SignalOpenBoostMethod = 0;    // Signal open boost method
-INPUT int ElliottWave_SignalCloseMethod = 2;        // Signal close method
+INPUT int ElliottWave_SignalCloseMethod = 0;        // Signal close method
 INPUT int ElliottWave_SignalCloseFilter = 0;        // Signal close filter (-127-127)
 INPUT float ElliottWave_SignalCloseLevel = 0.0f;    // Signal close level (>0.0001)
-INPUT int ElliottWave_PriceStopMethod = 1;          // Price stop method
+INPUT int ElliottWave_PriceStopMethod = 1;          // Price stop method (0-127)
 INPUT float ElliottWave_PriceStopLevel = 0;         // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 1;         // Tick filter method
 INPUT float ElliottWave_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short ElliottWave_Shift = 0;                  // Shift (relative to the current bar, 0 - default)
 INPUT float ElliottWave_OrderCloseLoss = 0;         // Order close loss
 INPUT float ElliottWave_OrderCloseProfit = 0;       // Order close profit
-INPUT int ElliottWave_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
+INPUT int ElliottWave_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("ElliottWave strategy: Elliott Wave oscillator params");
 INPUT int ElliottWave_Indi_EWO_Period1 = 5;                                   // EWO Period 1
 INPUT int ElliottWave_Indi_EWO_Period2 = 35;                                  // EWO Period 2
