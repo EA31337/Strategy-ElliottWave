@@ -33,7 +33,7 @@ int init() {
   SetIndexBuffer(1, Buffer2);
   //---- name for DataWindow and indicator subwindow label
   string short_name;
-  short_name = StringFormat("EWO(%s, %s)", EWO_Period1, EWO_Period2);
+  short_name = StringFormat("EWO(%d, %d)", EWO_Period1, EWO_Period2);
   IndicatorShortName(short_name);
   SetIndexLabel(0, "EWO");
   //----
@@ -47,14 +47,8 @@ int deinit() { return (0); }
 //| Custom indicator iteration function                              |
 //+------------------------------------------------------------------+
 
-#define RESIZE_INDEX_BUFFER(BUFF) \
-  if (ArrayRange(BUFF, 0) != Bars) ArrayResize(BUFF, Bars, Bars - Bars % 4096 + 4096);
-
 int start() {
   double MA1, MA2;
-
-  RESIZE_INDEX_BUFFER(Buffer1);
-  RESIZE_INDEX_BUFFER(Buffer2);
 
   int limit = Bars - IndicatorCounted();
 

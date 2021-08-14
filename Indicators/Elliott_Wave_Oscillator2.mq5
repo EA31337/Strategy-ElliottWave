@@ -18,19 +18,25 @@
 // Defines macros.
 #define Bars (ChartStatic::iBars(_Symbol, _Period))
 
-// Custom indicator iteration function.
-int OnCalculate(const int rates_total, const int prev_calculated, const int begin, const double &price[]) {
+// Includes the main file.
+#include "Elliott_Wave_Oscillator2.mq4"
+
+// Custom indicator initialization function.
+void OnInit() {
+  init();
+  PlotIndexSetInteger(0, PLOT_DRAW_BEGIN, EWO_Period2);
+  PlotIndexSetInteger(1, PLOT_DRAW_BEGIN, EWO_Period2);
   if (!ArrayGetAsSeries(Buffer1) || !ArrayGetAsSeries(Buffer2)) {
     ArraySetAsSeries(Buffer1, true);
     ArraySetAsSeries(Buffer2, true);
   }
-  if (begin > 0) PlotIndexSetInteger(0, PLOT_DRAW_BEGIN, begin);
-  if (begin > 0) PlotIndexSetInteger(1, PLOT_DRAW_BEGIN, begin);
+}
+
+// Custom indicator iteration function.
+int OnCalculate(const int rates_total, const int prev_calculated, const int begin, const double &price[]) {
   int pos = fmax(0, prev_calculated - 1);
   IndicatorCounted(prev_calculated);
   start();
   return (rates_total);
 }
 
-// Includes the main file.
-#include "Elliott_Wave_Oscillator2.mq4"
