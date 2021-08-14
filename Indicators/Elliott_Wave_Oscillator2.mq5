@@ -39,4 +39,3 @@ int OnCalculate(const int rates_total, const int prev_calculated, const int begi
   start();
   return (rates_total);
 }
-
