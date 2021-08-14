@@ -140,36 +140,6 @@
       "relative_to_project":"true"
     },
     {
-      "path":".\\sets\\EURUSD_H1.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\sets\\EURUSD_H4.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\sets\\EURUSD_M1.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\sets\\EURUSD_M15.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\sets\\EURUSD_M30.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\sets\\EURUSD_M5.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
       "path":"MQL5\\Include\\EA31337-classes\\EA.mqh",
       "compile":"false",
       "relative_to_project":"false"
@@ -538,11 +508,6 @@
       "path":"MQL4\\Include\\EA31337-classes\\Trade.struct.h",
       "compile":"false",
       "relative_to_project":"false"
-    },
-    {
-      "path":".\\Indi_ElliottWave.mqh",
-      "compile":"false",
-      "relative_to_project":"true"
     },
     {
       "path":".\\config\\EURUSD_H1.h",
@@ -953,6 +918,81 @@
       "path":"MQL5\\Include\\EA31337-classes\\Account.define.h",
       "compile":"false",
       "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\Std.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\ISerializable.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\SymbolInfo.static.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\MqlTick.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\SerializerConversions.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\Math.define.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":"MQL5\\Include\\EA31337-classes\\SymbolInfo.enum.symbols.h",
+      "compile":"false",
+      "relative_to_project":"false"
+    },
+    {
+      "path":".\\config\\H1.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\config\\H4.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\config\\H8.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\config\\M1.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\config\\M15.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\config\\M30.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\config\\M5.h",
+      "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\Indi_ElliottWave.mqh",
+      "compile":"false",
+      "relative_to_project":"true"
     }
   ],
 
