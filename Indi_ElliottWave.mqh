@@ -130,6 +130,8 @@ class Indi_ElliottWave : public Indicator {
       for (int _mode = 0; _mode < (int)params.max_modes; _mode++) {
         _entry.values[_mode] = GetValue(_mode, _shift);
       }
+      _entry.SetFlag(INDI_ENTRY_FLAG_IS_DOUBLE, iparams.GetDataValueType() == TYPE_DOUBLE);
+      _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, !_entry.HasValue<double>(EMPTY_VALUE));
       if (_entry.IsValid()) {
         idata.Add(_entry, _bar_time);
       }
