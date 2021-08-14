@@ -130,11 +130,6 @@
       "relative_to_project":"false"
     },
     {
-      "path":".\\Stg_ElliottWave.mq5",
-      "compile":"true",
-      "relative_to_project":"true"
-    },
-    {
       "path":".\\Stg_ElliottWave.mqh",
       "compile":"false",
       "relative_to_project":"true"
@@ -992,6 +987,11 @@
     {
       "path":".\\Indi_ElliottWave.mqh",
       "compile":"false",
+      "relative_to_project":"true"
+    },
+    {
+      "path":".\\Stg_ElliottWave.mq5",
+      "compile":"true",
       "relative_to_project":"true"
     }
   ],

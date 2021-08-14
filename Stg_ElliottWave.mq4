@@ -14,11 +14,9 @@
 
 // Load external resources.
 #ifdef __resource__
-#ifdef __MQL4__
-//#resource "Indicators/Elliott_Wave_HeartBeat.ex4"
-//#resource "Indicators/Elliott_Wave_Oscillator-Arrows.ex4"
-//#resource "Indicators/Elliott_Wave_Oscillator1-Trend.ex4"
-//#resource "Indicators/Elliott_Wave_Oscillator1.ex4"
-#resource "Indicators/Elliott_Wave_Oscillator2.ex4"
-#endif
+//#resource "\\Indicators\\Elliott_Wave_HeartBeat.ex4"
+//#resource "\\Indicators\\Elliott_Wave_Oscillator-Arrows.ex4"
+//#resource "\\Indicators\\Elliott_Wave_Oscillator1-Trend.ex4"
+//#resource "\\Indicators\\Elliott_Wave_Oscillator1.ex4"
+#resource "\\Indicators\\Elliott_Wave_Oscillator2.ex4"
 #endif

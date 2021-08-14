@@ -35,16 +35,19 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #endif
 #property link ea_link
 #property copyright "Copyright 2016-2021, EA31337 Ltd"
-#property tester_indicator "Indicators/Elliott_Wave_Oscillator2"
+#ifdef __MQL5__
+#property tester_indicator "::Indicators\\Elliott_Wave_Oscillator2.ex5"
+#property tester_library "::Indicators\\Elliott_Wave_Oscillator2.ex5"
+#endif
 
 // Load external resources.
 #ifdef __resource__
 #ifdef __MQL5__
-//#resource "Indicators/Elliott_Wave_HeartBeat.ex5"
-//#resource "Indicators/Elliott_Wave_Oscillator-Arrows.ex5"
-//#resource "Indicators/Elliott_Wave_Oscillator1-Trend.ex5"
-//#resource "Indicators/Elliott_Wave_Oscillator1.ex5"
-#resource "Indicators/Elliott_Wave_Oscillator2.ex5"
+//#resource "\\Indicators\\Elliott_Wave_HeartBeat.ex5"
+//#resource "\\Indicators\\Elliott_Wave_Oscillator-Arrows.ex5"
+//#resource "\\Indicators\\Elliott_Wave_Oscillator1-Trend.ex5"
+//#resource "\\Indicators\\Elliott_Wave_Oscillator1.ex5"
+#resource "\\Indicators\\Elliott_Wave_Oscillator2.ex5"
 #endif
 #endif
 

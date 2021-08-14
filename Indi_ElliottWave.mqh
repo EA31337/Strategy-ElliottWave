@@ -38,7 +38,7 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
         ewo_ap2(_ewo_ap2) {
     max_modes = 2;
 #ifdef __resource__
-    custom_indi_name = "::Indicators/Elliott_Wave_Oscillator2";
+    custom_indi_name = "::Indicators\\Elliott_Wave_Oscillator2";
 #else
     custom_indi_name = "Elliott_Wave_Oscillator2";
 #endif
