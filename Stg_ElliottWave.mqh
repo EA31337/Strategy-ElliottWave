@@ -13,13 +13,13 @@
 INPUT_GROUP("ElliotWave strategy: strategy params");
 INPUT float ElliottWave_LotSize = 0;                // Lot size
 INPUT int ElliottWave_SignalOpenMethod = 0;         // Signal open method (-127-127)
-INPUT float ElliottWave_SignalOpenLevel = 0.0f;     // Signal open level (>0.0001)
+INPUT float ElliottWave_SignalOpenLevel = 0.001f;   // Signal open level
 INPUT int ElliottWave_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int ElliottWave_SignalOpenFilterTime = 8;     // Signal open filter time
 INPUT int ElliottWave_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int ElliottWave_SignalCloseMethod = 0;        // Signal close method
-INPUT int ElliottWave_SignalCloseFilter = 0;        // Signal close filter (-127-127)
-INPUT float ElliottWave_SignalCloseLevel = 0.0f;    // Signal close level (>0.0001)
+INPUT int ElliottWave_SignalCloseFilter = 32;       // Signal close filter (-127-127)
+INPUT float ElliottWave_SignalCloseLevel = 0.001f;  // Signal close level
 INPUT int ElliottWave_PriceStopMethod = 1;          // Price stop method (0-127)
 INPUT float ElliottWave_PriceStopLevel = 0;         // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 1;         // Tick filter method
@@ -114,24 +114,25 @@ class Stg_ElliottWave : public Strategy {
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
     Indi_ElliottWave *_indi = GetIndicator();
-    bool _result = _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID);
+    bool _result =
+        _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) && _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
     if (!_result) {
       // Returns false when indicator data is not valid.
       return false;
     }
-    IndicatorSignal _signals = _indi.GetSignals(4, _shift);
+    // IndicatorSignal _signals = _indi.GetSignals(4, _shift);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
-        //_result &= _indi[_shift][1] < 0;
-        _result &= _indi.IsIncreasing(3);
-        _result &= _indi.IsIncByPct(_level, 0, 0, 3);
-        _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
+        _result &= _indi[_shift][1] < -_level;
+        _result &= _indi.IsIncreasing(1, 1);
+        _result &= _indi.IsIncByPct(_level, 1, _shift, 3);
+        //_result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
-        //_result &= _indi[_shift][0] > 0;
-        _result &= _indi.IsDecreasing(3);
-        _result &= _indi.IsDecByPct(-_level, 0, 0, 3);
-        _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
+        _result &= _indi[_shift][0] > _level;
+        _result &= _indi.IsDecreasing(1, 0);
+        _result &= _indi.IsDecByPct(-_level, 0, _shift, 3);
+        //_result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
     }
     return _result;

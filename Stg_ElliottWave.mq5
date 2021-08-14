@@ -35,6 +35,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #endif
 #property link ea_link
 #property copyright "Copyright 2016-2021, EA31337 Ltd"
+#property tester_indicator "Indicators/Elliott_Wave_Oscillator2"
 
 // Load external resources.
 #ifdef __resource__
