@@ -43,11 +43,11 @@ input bool Info_On_Chart = true;          // Display info on chart.
 // Load external resources.
 #ifdef __resource__
 #ifdef __MQL5__
-//#resource "\\Indicators\\Elliott_Wave_HeartBeat.ex5"
-//#resource "\\Indicators\\Elliott_Wave_Oscillator-Arrows.ex5"
-//#resource "\\Indicators\\Elliott_Wave_Oscillator1-Trend.ex5"
-//#resource "\\Indicators\\Elliott_Wave_Oscillator1.ex5"
-#resource "\\Indicators\\Elliott_Wave_Oscillator2.ex5"
+//#resource "Indicators\\Elliott_Wave_HeartBeat.ex5"
+//#resource "Indicators\\Elliott_Wave_Oscillator-Arrows.ex5"
+//#resource "Indicators\\Elliott_Wave_Oscillator1-Trend.ex5"
+//#resource "Indicators\\Elliott_Wave_Oscillator1.ex5"
+#resource "Indicators\\Elliott_Wave_Oscillator2.ex5"
 #endif
 #endif
 
