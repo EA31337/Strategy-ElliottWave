@@ -39,15 +39,6 @@ INPUT int ElliottWave_Indi_EWO_Shift = 0;                                     //
 
 // Structs.
 
-// Defines struct with default user indicator values.
-struct Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
-  Indi_ElliottWave_Params_Defaults()
-      : Indi_ElliottWave_Params(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
-                                ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
-                                ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
-                                ::ElliottWave_Indi_EWO_Shift) {}
-} indi_ewo_defaults;
-
 // Defines struct with default user strategy values.
 struct Stg_ElliottWave_Params_Defaults : StgParams {
   Stg_ElliottWave_Params_Defaults()
@@ -62,18 +53,14 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
   }
 } stg_ewo_defaults;
 
-// Struct to define strategy parameters to override.
-struct Stg_ElliottWave_Params : StgParams {
-  Indi_ElliottWave_Params iparams;
-  StgParams sparams;
-
-  // Struct constructors.
-  Stg_ElliottWave_Params(Indi_ElliottWave_Params &_iparams, StgParams &_sparams)
-      : iparams(indi_ewo_defaults, _iparams.tf.GetTf()), sparams(stg_ewo_defaults) {
-    iparams = _iparams;
-    sparams = _sparams;
-  }
-};
+// Defines struct with default user indicator values.
+struct Stg_ElliottWave_Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
+  Stg_ElliottWave_Indi_ElliottWave_Params_Defaults()
+      : Indi_ElliottWave_Params(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
+                                ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
+                                ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
+                                ::ElliottWave_Indi_EWO_Shift) {}
+} stg_ewo_indi_ewo_defaults;
 
 #ifdef __config__
 // Loads pair specific param values.
@@ -93,7 +80,7 @@ class Stg_ElliottWave : public Strategy {
 
   static Stg_ElliottWave *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
-    Indi_ElliottWave_Params _indi_params(indi_ewo_defaults, _tf);
+    Indi_ElliottWave_Params _indi_params(stg_ewo_indi_ewo_defaults, _tf);
     StgParams _stg_params(stg_ewo_defaults);
 #ifdef __config__
     SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
