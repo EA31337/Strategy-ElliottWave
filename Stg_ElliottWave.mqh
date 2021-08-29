@@ -46,6 +46,7 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
                   ::ElliottWave_SignalOpenBoostMethod, ::ElliottWave_SignalCloseMethod, ::ElliottWave_SignalCloseFilter,
                   ::ElliottWave_SignalCloseLevel, ::ElliottWave_PriceStopMethod, ::ElliottWave_PriceStopLevel,
                   ::ElliottWave_TickFilterMethod, ::ElliottWave_MaxSpread, ::ElliottWave_Shift) {
+    Set(STRAT_PARAM_LS, ElliottWave_LotSize);
     Set(STRAT_PARAM_OCL, ElliottWave_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, ElliottWave_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, ElliottWave_OrderCloseTime);
