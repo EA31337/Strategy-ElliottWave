@@ -25,8 +25,8 @@ INPUT float ElliottWave_PriceStopLevel = 2;         // Price stop level
 INPUT int ElliottWave_TickFilterMethod = 32;        // Tick filter method
 INPUT float ElliottWave_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short ElliottWave_Shift = 0;                  // Shift (relative to the current bar, 0 - default)
-INPUT float ElliottWave_OrderCloseLoss = 0;         // Order close loss
-INPUT float ElliottWave_OrderCloseProfit = 0;       // Order close profit
+INPUT float ElliottWave_OrderCloseLoss = 80;        // Order close loss
+INPUT float ElliottWave_OrderCloseProfit = 80;      // Order close profit
 INPUT int ElliottWave_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("ElliottWave strategy: Elliott Wave oscillator params");
 INPUT int ElliottWave_Indi_EWO_Period1 = 5;                                   // EWO Period 1
