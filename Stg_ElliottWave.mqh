@@ -91,8 +91,7 @@ class Stg_ElliottWave : public Strategy {
                              stg_ewo_h8);
 #endif
     // Initialize indicator.
-    Indi_ElliottWave_Params _ewo_params(_indi_params, _tf);
-    _stg_params.SetIndicator(new Indi_ElliottWave(_ewo_params));
+    _stg_params.SetIndicator(new Indi_ElliottWave(_indi_params));
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
