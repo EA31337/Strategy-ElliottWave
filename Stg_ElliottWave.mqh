@@ -52,7 +52,7 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
     Set(STRAT_PARAM_OCT, ElliottWave_OrderCloseTime);
     Set(STRAT_PARAM_SOFT, ElliottWave_SignalOpenFilterTime);
   }
-} stg_ewo_defaults;
+};
 
 // Defines struct with default user indicator values.
 struct Stg_ElliottWave_Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
@@ -82,6 +82,7 @@ class Stg_ElliottWave : public Strategy {
   static Stg_ElliottWave *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
     Indi_ElliottWave_Params _indi_params(stg_ewo_indi_ewo_defaults, _tf);
+    Stg_ElliottWave_Params_Defaults stg_ewo_defaults;
     StgParams _stg_params(stg_ewo_defaults);
 #ifdef __config__
     SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
