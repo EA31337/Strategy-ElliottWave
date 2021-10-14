@@ -28,15 +28,16 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
   ENUM_MA_METHOD ewo_mm1, ewo_mm2;
   int ewo_period1, ewo_period2;
   // Struct constructors.
-  Indi_ElliottWave_Params(int _ewo_period1, int _ewo_period2, ENUM_MA_METHOD _ewo_mm1, ENUM_MA_METHOD _ewo_mm2,
-                          ENUM_APPLIED_PRICE _ewo_ap1, ENUM_APPLIED_PRICE _ewo_ap2, int _shift)
+  Indi_ElliottWave_Params(int _ewo_period1 = 5, int _ewo_period2 = 35, ENUM_MA_METHOD _ewo_mm1 = MODE_SMA,
+                          ENUM_MA_METHOD _ewo_mm2 = MODE_SMA, ENUM_APPLIED_PRICE _ewo_ap1 = PRICE_MEDIAN,
+                          ENUM_APPLIED_PRICE _ewo_ap2 = PRICE_MEDIAN, int _shift = 0)
       : ewo_period1(_ewo_period1),
         ewo_period2(_ewo_period2),
         ewo_mm1(_ewo_mm1),
         ewo_mm2(_ewo_mm2),
         ewo_ap1(_ewo_ap1),
-        ewo_ap2(_ewo_ap2) {
-    max_modes = 2;
+        ewo_ap2(_ewo_ap2),
+        IndicatorParams(INDI_CUSTOM, 2, TYPE_DOUBLE) {
 #ifdef __resource__
     custom_indi_name = "::Indicators\\Elliott_Wave_Oscillator2";
 #else
@@ -44,12 +45,11 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
 #endif
     shift = _shift;
     SetDataSourceType(IDATA_ICUSTOM);
-    SetDataValueType(TYPE_DOUBLE);
   };
   Indi_ElliottWave_Params(Indi_ElliottWave_Params &_params, ENUM_TIMEFRAMES _tf) {
-    this = _params;
+    THIS_REF = _params;
     tf = _tf;
-  }
+  };
   // Getters.
   int GetAppliedPrice1() { return ewo_ap1; }
   int GetAppliedPrice2() { return ewo_ap2; }
@@ -69,24 +69,14 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
 /**
  * Implements indicator class.
  */
-class Indi_ElliottWave : public Indicator {
+class Indi_ElliottWave : public Indicator<Indi_ElliottWave_Params> {
  public:
-  // Structs.
-  Indi_ElliottWave_Params params;
-
   /**
    * Class constructor.
    */
-  Indi_ElliottWave(Indi_ElliottWave_Params &_p)
-      : params(_p.ewo_period1, _p.ewo_period2, _p.ewo_mm1, _p.ewo_mm2, _p.ewo_ap1, _p.ewo_ap2, _p.shift),
-        Indicator((IndicatorParams)_p) {
-    params = _p;
-  }
-  Indi_ElliottWave(Indi_ElliottWave_Params &_p, ENUM_TIMEFRAMES _tf)
-      : params(_p.ewo_period1, _p.ewo_period2, _p.ewo_mm1, _p.ewo_mm2, _p.ewo_ap1, _p.ewo_ap2, _p.shift),
-        Indicator(NULL, _tf) {
-    params = _p;
-  }
+  Indi_ElliottWave(Indi_ElliottWave_Params &_p, IndicatorBase *_indi_src = NULL)
+      : Indicator<Indi_ElliottWave_Params>(_p, _indi_src){};
+  Indi_ElliottWave(ENUM_TIMEFRAMES _tf = PERIOD_CURRENT) : Indicator(INDI_ASI, _tf){};
 
   /**
    * Gets indicator's params.
@@ -100,12 +90,12 @@ class Indi_ElliottWave : public Indicator {
   double GetValue(int _mode, int _shift = 0) {
     ResetLastError();
     double _value = EMPTY_VALUE;
-    switch (params.idstype) {
+    switch (iparams.idstype) {
       case IDATA_ICUSTOM:
         _value = iCustom(istate.handle, Get<string>(CHART_PARAM_SYMBOL), Get<ENUM_TIMEFRAMES>(CHART_PARAM_TF),
-                         params.custom_indi_name, params.GetPeriod1(), params.GetPeriod2(), params.GetMAMethod1(),
-                         params.GetMAMethod2(), params.GetAppliedPrice1(), params.GetAppliedPrice2(), params.GetShift(),
-                         _mode, _shift);
+                         iparams.custom_indi_name, iparams.GetPeriod1(), iparams.GetPeriod2(), iparams.GetMAMethod1(),
+                         iparams.GetMAMethod2(), iparams.GetAppliedPrice1(), iparams.GetAppliedPrice2(),
+                         iparams.GetShift(), _mode, _shift);
         break;
       default:
         SetUserError(ERR_USER_NOT_SUPPORTED);
@@ -114,28 +104,5 @@ class Indi_ElliottWave : public Indicator {
     istate.is_changed = false;
     istate.is_ready = _LastError == ERR_NO_ERROR;
     return _value;
-  }
-
-  /**
-   * Returns the indicator's struct value.
-   */
-  IndicatorDataEntry GetEntry(int _shift = 0) {
-    long _bar_time = GetBarTime(_shift);
-    unsigned int _position;
-    IndicatorDataEntry _entry(params.max_modes);
-    if (idata.KeyExists(_bar_time, _position)) {
-      _entry = idata.GetByPos(_position);
-    } else {
-      _entry.timestamp = GetBarTime(_shift);
-      for (int _mode = 0; _mode < (int)params.max_modes; _mode++) {
-        _entry.values[_mode] = GetValue(_mode, _shift);
-      }
-      _entry.SetFlag(INDI_ENTRY_FLAG_IS_DOUBLE, iparams.GetDataValueType() == TYPE_DOUBLE);
-      _entry.SetFlag(INDI_ENTRY_FLAG_IS_VALID, !_entry.HasValue<double>(EMPTY_VALUE));
-      if (_entry.IsValid()) {
-        idata.Add(_entry, _bar_time);
-      }
-    }
-    return _entry;
   }
 };
