@@ -995,14 +995,4 @@
       "relative_to_project":"true"
     }
   ],
-
-  "resources":
-  [
-    {
-      "type":"indicator",
-      "path":".\\Indicators\\Elliott_Wave_Oscillator2.ex5",
-      "name":"Indicators\\Elliott_Wave_Oscillator2",
-      "relative_to_project":"true"
-    }
-  ]
 }
