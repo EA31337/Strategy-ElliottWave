@@ -505,41 +505,6 @@
       "relative_to_project":"false"
     },
     {
-      "path":".\\config\\EURUSD_H1.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\config\\EURUSD_H4.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\config\\EURUSD_H8.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\config\\EURUSD_M1.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\config\\EURUSD_M15.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\config\\EURUSD_M30.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
-      "path":".\\config\\EURUSD_M5.h",
-      "compile":"false",
-      "relative_to_project":"true"
-    },
-    {
       "path":"MQL4\\Include\\EA31337-classes\\MQL5.mqh",
       "compile":"false",
       "relative_to_project":"false"
