@@ -55,12 +55,12 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
 };
 
 // Defines struct with default user indicator values.
-struct Stg_ElliottWave_Indi_ElliottWave_Params_Defaults : Indi_ElliottWave_Params {
-  Stg_ElliottWave_Indi_ElliottWave_Params_Defaults()
-      : Indi_ElliottWave_Params(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
-                                ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
-                                ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
-                                ::ElliottWave_Indi_EWO_Shift) {}
+struct Stg_ElliottWave_IndiElliottWaveParams_Defaults : IndiElliottWaveParams {
+  Stg_ElliottWave_IndiElliottWaveParams_Defaults()
+      : IndiElliottWaveParams(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
+                              ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
+                              ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
+                              ::ElliottWave_Indi_EWO_Shift) {}
 } stg_ewo_indi_ewo_defaults;
 
 #ifdef __config__
@@ -81,12 +81,12 @@ class Stg_ElliottWave : public Strategy {
 
   static Stg_ElliottWave *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
-    Indi_ElliottWave_Params _indi_params(stg_ewo_indi_ewo_defaults, _tf);
+    IndiElliottWaveParams _indi_params(stg_ewo_indi_ewo_defaults, _tf);
     Stg_ElliottWave_Params_Defaults stg_ewo_defaults;
     StgParams _stg_params(stg_ewo_defaults);
 #ifdef __config__
-    SetParamsByTf<Indi_ElliottWave_Params>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
-                                           indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
+    SetParamsByTf<IndiElliottWaveParams>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
+                                         indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_ewo_m1, stg_ewo_m5, stg_ewo_m15, stg_ewo_m30, stg_ewo_h1, stg_ewo_h4,
                              stg_ewo_h8);
 #endif

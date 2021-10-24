@@ -4,8 +4,8 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_ElliottWave_Params_M1 : Indi_ElliottWave_Params {
-  Indi_ElliottWave_Params_M1() : Indi_ElliottWave_Params(indi_ewo_defaults, PERIOD_M1) {
+struct IndiElliottWaveParams_M1 : IndiElliottWaveParams {
+  IndiElliottWaveParams_M1() : IndiElliottWaveParams(indi_ewo_defaults, PERIOD_M1) {
     shift = 0;
     ewo_ap1 = (ENUM_APPLIED_PRICE)4;
     ewo_ap2 = (ENUM_APPLIED_PRICE)4;

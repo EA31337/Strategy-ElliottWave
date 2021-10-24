@@ -22,15 +22,15 @@
 // Structs.
 
 // Defines struct to store indicator parameter values.
-struct Indi_ElliottWave_Params : public IndicatorParams {
+struct IndiElliottWaveParams : public IndicatorParams {
   // Indicator params.
   ENUM_APPLIED_PRICE ewo_ap1, ewo_ap2;
   ENUM_MA_METHOD ewo_mm1, ewo_mm2;
   int ewo_period1, ewo_period2;
   // Struct constructors.
-  Indi_ElliottWave_Params(int _ewo_period1 = 5, int _ewo_period2 = 35, ENUM_MA_METHOD _ewo_mm1 = MODE_SMA,
-                          ENUM_MA_METHOD _ewo_mm2 = MODE_SMA, ENUM_APPLIED_PRICE _ewo_ap1 = PRICE_MEDIAN,
-                          ENUM_APPLIED_PRICE _ewo_ap2 = PRICE_MEDIAN, int _shift = 0)
+  IndiElliottWaveParams(int _ewo_period1 = 5, int _ewo_period2 = 35, ENUM_MA_METHOD _ewo_mm1 = MODE_SMA,
+                        ENUM_MA_METHOD _ewo_mm2 = MODE_SMA, ENUM_APPLIED_PRICE _ewo_ap1 = PRICE_MEDIAN,
+                        ENUM_APPLIED_PRICE _ewo_ap2 = PRICE_MEDIAN, int _shift = 0)
       : ewo_period1(_ewo_period1),
         ewo_period2(_ewo_period2),
         ewo_mm1(_ewo_mm1),
@@ -46,7 +46,7 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
     shift = _shift;
     SetDataSourceType(IDATA_ICUSTOM);
   };
-  Indi_ElliottWave_Params(Indi_ElliottWave_Params &_params, ENUM_TIMEFRAMES _tf) {
+  IndiElliottWaveParams(IndiElliottWaveParams &_params, ENUM_TIMEFRAMES _tf) {
     THIS_REF = _params;
     tf = _tf;
   };
@@ -69,19 +69,19 @@ struct Indi_ElliottWave_Params : public IndicatorParams {
 /**
  * Implements indicator class.
  */
-class Indi_ElliottWave : public Indicator<Indi_ElliottWave_Params> {
+class Indi_ElliottWave : public Indicator<IndiElliottWaveParams> {
  public:
   /**
    * Class constructor.
    */
-  Indi_ElliottWave(Indi_ElliottWave_Params &_p, IndicatorBase *_indi_src = NULL)
-      : Indicator<Indi_ElliottWave_Params>(_p, _indi_src){};
+  Indi_ElliottWave(IndiElliottWaveParams &_p, IndicatorBase *_indi_src = NULL)
+      : Indicator<IndiElliottWaveParams>(_p, _indi_src){};
   Indi_ElliottWave(ENUM_TIMEFRAMES _tf = PERIOD_CURRENT) : Indicator(INDI_ASI, _tf){};
 
   /**
    * Gets indicator's params.
    */
-  // Indi_ElliottWave_Params GetIndiParams() const { return params; }
+  // IndiElliottWaveParams GetIndiParams() const { return params; }
 
   /**
    * Returns the indicator's value.
