@@ -81,12 +81,9 @@ class Stg_ElliottWave : public Strategy {
 
   static Stg_ElliottWave *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
-    IndiElliottWaveParams _indi_params(stg_ewo_indi_ewo_defaults, _tf);
     Stg_ElliottWave_Params_Defaults stg_ewo_defaults;
     StgParams _stg_params(stg_ewo_defaults);
 #ifdef __config__
-    SetParamsByTf<IndiElliottWaveParams>(_indi_params, _tf, indi_ewo_m1, indi_ewo_m5, indi_ewo_m15, indi_ewo_m30,
-                                         indi_ewo_h1, indi_ewo_h4, indi_ewo_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_ewo_m1, stg_ewo_m5, stg_ewo_m15, stg_ewo_m30, stg_ewo_h1, stg_ewo_h4,
                              stg_ewo_h8);
 #endif
@@ -95,8 +92,15 @@ class Stg_ElliottWave : public Strategy {
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
     Strategy *_strat = new Stg_ElliottWave(_stg_params, _tparams, _cparams, "Elliott Wave");
-    _strat.SetIndicator(new Indi_ElliottWave(_indi_params));
     return _strat;
+  }
+
+  /**
+   * Event on strategy's init.
+   */
+  void OnInit() {
+    IndiElliottWaveParams _indi_params(stg_ewo_indi_ewo_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    SetIndicator(new Indi_ElliottWave(_indi_params));
   }
 
   /**
