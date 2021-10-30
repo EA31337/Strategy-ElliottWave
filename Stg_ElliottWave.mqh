@@ -54,15 +54,6 @@ struct Stg_ElliottWave_Params_Defaults : StgParams {
   }
 };
 
-// Defines struct with default user indicator values.
-struct Stg_ElliottWave_IndiElliottWaveParams_Defaults : IndiElliottWaveParams {
-  Stg_ElliottWave_IndiElliottWaveParams_Defaults()
-      : IndiElliottWaveParams(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
-                              ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
-                              ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
-                              ::ElliottWave_Indi_EWO_Shift) {}
-} stg_ewo_indi_ewo_defaults;
-
 #ifdef __config__
 // Loads pair specific param values.
 #include "config/H1.h"
@@ -99,7 +90,11 @@ class Stg_ElliottWave : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
-    IndiElliottWaveParams _indi_params(stg_ewo_indi_ewo_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    IndiElliottWaveParams _indi_params(::ElliottWave_Indi_EWO_Period1, ::ElliottWave_Indi_EWO_Period2,
+                                       ::ElliottWave_Indi_EWO_MA_Method1, ::ElliottWave_Indi_EWO_MA_Method2,
+                                       ::ElliottWave_Indi_EWO_Applied_Price1, ::ElliottWave_Indi_EWO_Applied_Price2,
+                                       ::ElliottWave_Indi_EWO_Shift);
+    _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
     SetIndicator(new Indi_ElliottWave(_indi_params));
   }
 
