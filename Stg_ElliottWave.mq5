@@ -23,7 +23,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 
 // Defines.
 #define ea_name "Strategy ElliottWave"
-#define ea_version "1.008"
+#define ea_version "1.009"
 #define ea_desc "Strategy based on EA31337 framework."
 #define ea_link "https://github.com/EA31337/Strategy-ElliottWave"
 #define ea_author "EA31337 Ltd"
