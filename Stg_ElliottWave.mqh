@@ -114,12 +114,14 @@ class Stg_ElliottWave : public Strategy {
       case ORDER_TYPE_BUY:
         _result &= _indi[_shift][1] < -_level;
         _result &= _indi.IsIncreasing(1, 1);
+        _result &= _indi.IsDecreasing(1, 1, _shift + 1);
         _result &= _indi.IsIncByPct(_level, 1, _shift, 3);
         //_result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
         _result &= _indi[_shift][0] > _level;
         _result &= _indi.IsDecreasing(1, 0);
+        _result &= _indi.IsIncreasing(1, 1, _shift + 1);
         _result &= _indi.IsDecByPct(-_level, 0, _shift, 3);
         //_result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;

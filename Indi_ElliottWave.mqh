@@ -118,5 +118,4 @@ class Indi_ElliottWave : public Indicator<IndiElliottWaveParams> {
     _result &= _entry.values[0] != 0 || _entry.values[1] != 0;
     return _result;
   }
-
 };
