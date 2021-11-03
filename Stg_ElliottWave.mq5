@@ -38,6 +38,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property copyright "Copyright 2016-2021, EA31337 Ltd"
 #ifdef __MQL5__
 #property tester_indicator "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
+#property tester_library "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
 #endif
 
 // Load external resources.
