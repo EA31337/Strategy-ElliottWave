@@ -108,4 +108,15 @@ class Indi_ElliottWave : public Indicator<IndiElliottWaveParams> {
     istate.is_ready = _LastError == ERR_NO_ERROR;
     return _value;
   }
+
+  /**
+   * Checks if indicator entry values are valid.
+   */
+  bool IsValidEntry(IndicatorDataEntry &_entry) {
+    bool _result = !_entry.HasValue(DBL_MAX);
+    // At least one of values is non-zero.
+    _result &= _entry.values[0] != 0 || _entry.values[1] != 0;
+    return _result;
+  }
+
 };
