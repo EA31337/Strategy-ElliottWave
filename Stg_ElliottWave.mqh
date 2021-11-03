@@ -30,7 +30,7 @@ INPUT float ElliottWave_OrderCloseProfit = 80;      // Order close profit
 INPUT int ElliottWave_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("ElliottWave strategy: Elliott Wave oscillator params");
 INPUT int ElliottWave_Indi_EWO_Period1 = 5;                                   // EWO Period 1
-INPUT int ElliottWave_Indi_EWO_Period2 = 35;                                  // EWO Period 2
+INPUT int ElliottWave_Indi_EWO_Period2 = 45;                                  // EWO Period 2
 INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method1 = MODE_SMA;              // EWO MA Method 1
 INPUT ENUM_MA_METHOD ElliottWave_Indi_EWO_MA_Method2 = MODE_SMA;              // EWO MA Method 2
 INPUT ENUM_APPLIED_PRICE ElliottWave_Indi_EWO_Applied_Price1 = PRICE_MEDIAN;  // EWO Applied Price 1
