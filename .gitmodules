@@ -1,0 +1,3 @@
+[submodule "indicators-other"]
+	path = indicators-other
+	url = https://github.com/EA31337/EA31337-indicators-other

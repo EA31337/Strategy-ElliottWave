@@ -26,12 +26,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - uses: actions/checkout@v2
         with:
           path: Include/EA31337-classes
           ref: dev
           repository: EA31337/EA31337-classes
-      - name: Enables optimization mode
+      - name: Enables input mode
         run: echo '#define __input__' > config/define.h
       - name: Compile strategy for MQL4
         uses: fx31337/mql-compile-action@master
@@ -60,9 +62,16 @@ jobs:
     defaults:
       run:
         shell: powershell
+        working-directory: indicators-other
     runs-on: windows-latest
+    strategy:
+      matrix:
+        file:
+          - indicators-other/Oscillator/Elliott_Wave_Oscillator2
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - uses: actions/checkout@v2
         with:
           path: Include/EA31337-classes
@@ -74,7 +83,7 @@ jobs:
           include: .
           init-platform: true
           mt-version: 5.0.0.2361
-          path: Indicators/Elliott_Wave_Oscillator2.mq4
+          path: ${{ matrix.file }}.mq4
           verbose: true
       - name: Compile required indicator for MQL5
         uses: fx31337/mql-compile-action@master
@@ -82,7 +91,7 @@ jobs:
           include: .
           init-platform: true
           mt-version: 5.0.0.2515
-          path: Indicators/Elliott_Wave_Oscillator2.mq5
+          path: ${{ matrix.file }}.mq5
           verbose: true
       - name: List compiled files
         run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
@@ -91,4 +100,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Indicators
-          path: 'Indicators/*.ex?'
+          path: '**/*.ex?'

@@ -14,9 +14,9 @@
 
 // Load external resources.
 #ifdef __resource__
-//#resource "Indicators\\Elliott_Wave_HeartBeat.ex4"
-//#resource "Indicators\\Elliott_Wave_Oscillator-Arrows.ex4"
-//#resource "Indicators\\Elliott_Wave_Oscillator1-Trend.ex4"
-//#resource "Indicators\\Elliott_Wave_Oscillator1.ex4"
-#resource "Indicators\\Elliott_Wave_Oscillator2.ex4"
+//#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_HeartBeat.ex4"
+//#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator-Arrows.ex4"
+//#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator1-Trend.ex4"
+//#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator1.ex4"
+#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex4"
 #endif
