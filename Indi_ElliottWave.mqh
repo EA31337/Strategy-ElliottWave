@@ -39,15 +39,13 @@ struct IndiElliottWaveParams : public IndicatorParams {
         ewo_mm1(_ewo_mm1),
         ewo_mm2(_ewo_mm2),
         ewo_ap1(_ewo_ap1),
-        ewo_ap2(_ewo_ap2),
-        IndicatorParams(INDI_CUSTOM, 2, TYPE_DOUBLE) {
+        ewo_ap2(_ewo_ap2) {
 #ifdef __resource__
     custom_indi_name = "::" + INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2";
 #else
     custom_indi_name = "Elliott_Wave_Oscillator2";
 #endif
     shift = _shift;
-    SetDataSourceType(IDATA_ICUSTOM);
   };
   IndiElliottWaveParams(IndiElliottWaveParams &_params, ENUM_TIMEFRAMES _tf) {
     THIS_REF = _params;
@@ -77,8 +75,10 @@ class Indi_ElliottWave : public Indicator<IndiElliottWaveParams> {
   /**
    * Class constructor.
    */
-  Indi_ElliottWave(IndiElliottWaveParams &_p, IndicatorBase *_indi_src = NULL)
-      : Indicator<IndiElliottWaveParams>(_p, _indi_src){};
+  Indi_ElliottWave(IndiElliottWaveParams &_p, ENUM_IDATA_SOURCE_TYPE _idstype = IDATA_ICUSTOM,
+                   IndicatorBase *_indi_src = NULL, int _indi_src_mode = 0)
+      : Indicator<IndiElliottWaveParams>(
+            _p, IndicatorDataParams::GetInstance(2, TYPE_DOUBLE, _idstype, IDATA_RANGE_MIXED), _indi_src){};
   Indi_ElliottWave(ENUM_TIMEFRAMES _tf = PERIOD_CURRENT) : Indicator(INDI_ASI, _tf){};
 
   /**
@@ -93,12 +93,11 @@ class Indi_ElliottWave : public Indicator<IndiElliottWaveParams> {
   IndicatorDataEntryValue GetEntryValue(int _mode, int _shift = 1) {
     double _value = EMPTY_VALUE;
     int _ishift = _shift >= 0 ? _shift : iparams.GetShift();
-    switch (iparams.idstype) {
+    switch (Get<ENUM_IDATA_SOURCE_TYPE>(STRUCT_ENUM(IndicatorDataParams, IDATA_PARAM_IDSTYPE))) {
       case IDATA_ICUSTOM:
-        _value = iCustom(istate.handle, Get<string>(CHART_PARAM_SYMBOL), Get<ENUM_TIMEFRAMES>(CHART_PARAM_TF),
-                         iparams.custom_indi_name, iparams.GetPeriod1(), iparams.GetPeriod2(), iparams.GetMAMethod1(),
-                         iparams.GetMAMethod2(), iparams.GetAppliedPrice1(), iparams.GetAppliedPrice2(),
-                         iparams.GetShift(), _mode, _ishift);
+        _value = iCustom(istate.handle, GetSymbol(), GetTf(), iparams.custom_indi_name, iparams.GetPeriod1(),
+                         iparams.GetPeriod2(), iparams.GetMAMethod1(), iparams.GetMAMethod2(),
+                         iparams.GetAppliedPrice1(), iparams.GetAppliedPrice2(), iparams.GetShift(), _mode, _ishift);
         break;
       default:
         SetUserError(ERR_USER_NOT_SUPPORTED);
