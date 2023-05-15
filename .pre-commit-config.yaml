@@ -20,10 +20,10 @@ repos:
       # - id: markdownlint  # Configure in .mdlrc.style.rb
       - id: require-ascii
 
-  - repo: https://github.com/motet-a/jinjalint
-    rev: 01e0a4d
+  - repo: https://github.com/thibaudcolas/curlylint
+    rev: v0.13.1
     hooks:
-      - id: jinjalint
+      - id: curlylint
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.3.0
