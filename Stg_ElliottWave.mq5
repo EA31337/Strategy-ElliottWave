@@ -23,7 +23,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 
 // Defines.
 #define ea_name "Strategy ElliottWave"
-#define ea_version "1.011"
+#define ea_version "1.012"
 #define ea_desc "Strategy based on EA31337 framework."
 #define ea_link "https://github.com/EA31337/Strategy-ElliottWave"
 #define ea_author "EA31337 Ltd"
@@ -35,7 +35,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property description ea_desc
 #endif
 #property link ea_link
-#property copyright "Copyright 2016-2022, EA31337 Ltd"
+#property copyright "Copyright 2016-2023, EA31337 Ltd"
 #ifdef __MQL5__
 #property tester_indicator "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
 #property tester_library "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
