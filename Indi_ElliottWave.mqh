@@ -20,7 +20,9 @@
  */
 
 // Defines
-#define INDI_EWO_OSC_PATH "indicators-other\\Oscillator"
+#ifndef INDI_EWO_OSC_PATH
+#define INDI_EWO_OSC_PATH "indicators-other\\Oscillator\\Elliott_Wave_Oscillator2"
+#endif
 
 // Structs.
 
@@ -42,7 +44,7 @@ struct IndiElliottWaveParams : public IndicatorParams {
         ewo_ap2(_ewo_ap2),
         IndicatorParams(INDI_CUSTOM, 2, TYPE_DOUBLE) {
 #ifdef __resource__
-    custom_indi_name = "::" + INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2";
+    custom_indi_name = "::" + INDI_EWO_OSC_PATH;
 #else
     custom_indi_name = "Elliott_Wave_Oscillator2";
 #endif
