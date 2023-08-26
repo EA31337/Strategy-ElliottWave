@@ -3,7 +3,7 @@
   "program_type":"expert",
   "copyright"   :"Copyright 2016-2022, EA31337 Ltd",
   "link"        :"https:\/\/github.com\/EA31337\/Strategy-ElliottWave",
-  "version"     :"1.010",
+  "version"     :"2.000",
   "description" :"ElliottWave strategy based on EA31337 framework",
   "optimize"    :"0",
   "fpzerocheck" :"0",
