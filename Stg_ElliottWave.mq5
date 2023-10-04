@@ -37,8 +37,8 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property link ea_link
 #property copyright "Copyright 2016-2023, EA31337 Ltd"
 #ifdef __MQL5__
-#property tester_indicator "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
-#property tester_library "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
+#property tester_indicator "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2" + MQL_EXT
+#property tester_library "::" INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2" + MQL_EXT
 #endif
 
 // Load external resources.
@@ -48,7 +48,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 //#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator-Arrows.ex5"
 //#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator1-Trend.ex5"
 //#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator1.ex5"
-#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2.ex5"
+#resource INDI_EWO_OSC_PATH + "\\Elliott_Wave_Oscillator2" + MQL_EXT
 #endif
 #endif
 
